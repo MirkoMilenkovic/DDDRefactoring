@@ -1,10 +1,52 @@
-﻿namespace InvoiceWithLayers
+﻿using InvoiceWithLayers.DB;
+using InvoiceWithLayers.DB.DBModel;
+using InvoiceWithLayers.MasterData.Articles;
+using InvoiceWithLayers.MasterData.Customers;
+
+namespace InvoiceWithLayers
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            ConfigureDI(builder);
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.MapControllers();
+
+            var db = app.Services.GetRequiredService<InMemoryDB>();
+
+            await db.Init();
+
+            await app.RunAsync();
+        }
+
+        private static void ConfigureDI(WebApplicationBuilder builder)
+        {
+            builder.Services.AddSingleton<InMemoryDB>();
+
+            builder.Services.AddSingleton<ArticleRepository>();
+            builder.Services.AddSingleton<ArticleManager>();
+
+            builder.Services.AddSingleton<CustomerRepository>();
+            builder.Services.AddSingleton<CustomerManager>();
         }
     }
 }
