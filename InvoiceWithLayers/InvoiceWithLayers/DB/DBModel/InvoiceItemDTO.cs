@@ -5,7 +5,7 @@ namespace InvoiceWithLayers.DB.DBModel
     /// <summary>
     /// Maps to InvoiceItem table.
     /// </summary>
-    public class InvoiceItemDBT : BaseDBT
+    public class InvoiceItemDTO : BaseDBT
     {
         public required int InvoiceId { get; set; }
 

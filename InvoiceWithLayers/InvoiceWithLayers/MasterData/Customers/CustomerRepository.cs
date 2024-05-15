@@ -13,7 +13,7 @@ namespace InvoiceWithLayers.MasterData.Customers
             _db = db;
         }
 
-        public IEnumerable<CustomerDBT> GetAll()
+        public IEnumerable<CustomerDTO> GetAll()
         {
             return _db.Customer.Values;
         }

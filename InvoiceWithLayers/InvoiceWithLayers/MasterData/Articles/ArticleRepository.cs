@@ -11,7 +11,7 @@ namespace InvoiceWithLayers.MasterData.Articles
             _db = db;
         }
 
-        public IEnumerable<ArticleDBT> GetAll()
+        public IEnumerable<ArticleDTO> GetAll()
         {
             return _db.Article.Values;
         }

@@ -12,13 +12,13 @@ namespace InvoiceWithLayers.DB
     {
         private int _sequenceNumber = 0;
 
-        public Dictionary<int, InvoiceDBT> Invoice { get; } = new Dictionary<int, InvoiceDBT>();
+        public Dictionary<int, InvoiceDTO> Invoice { get; } = new Dictionary<int, InvoiceDTO>();
 
-        public Dictionary<int, InvoiceItemDBT> InvoiceItem { get; } = new Dictionary<int, InvoiceItemDBT>();
+        public Dictionary<int, InvoiceItemDTO> InvoiceItem { get; } = new Dictionary<int, InvoiceItemDTO>();
 
-        public Dictionary<int, ArticleDBT> Article { get; } = new Dictionary<int, ArticleDBT>();
+        public Dictionary<int, ArticleDTO> Article { get; } = new Dictionary<int, ArticleDTO>();
 
-        public Dictionary<int, CustomerDBT> Customer { get; } = new Dictionary<int, CustomerDBT>();
+        public Dictionary<int, CustomerDTO> Customer { get; } = new Dictionary<int, CustomerDTO>();
 
         public async Task Init()
         {
@@ -31,7 +31,7 @@ namespace InvoiceWithLayers.DB
 
         private void CustomersInit()
         {
-            CustomerDBT customer = new CustomerDBT()
+            CustomerDTO customer = new CustomerDTO()
             {
                 Id = GetNextId(),
                 Name = "Maxi"
@@ -41,7 +41,7 @@ namespace InvoiceWithLayers.DB
                 customer.Id,
                 customer);
 
-            customer = new CustomerDBT()
+            customer = new CustomerDTO()
             {
                 Id = GetNextId(),
                 Name = "Idea"
@@ -54,9 +54,9 @@ namespace InvoiceWithLayers.DB
 
         private void InitArticles()
         {
-            ArticleDBT article = new ArticleDBT()
+            ArticleDTO article = new ArticleDTO()
             {
-                ArticleTaxGroup = ArticleDBT.TaxGroup.Reduced,
+                ArticleTaxGroup = ArticleDTO.TaxGroup.Reduced,
                 Code = "1",
                 Name = "Jelen",
                 UnitPriceWithoutTax = 100,
@@ -67,9 +67,9 @@ namespace InvoiceWithLayers.DB
                 article.Id,
                 article);
 
-            article = new ArticleDBT()
+            article = new ArticleDTO()
             {
-                ArticleTaxGroup = ArticleDBT.TaxGroup.Reduced,
+                ArticleTaxGroup = ArticleDTO.TaxGroup.Reduced,
                 Code = "2",
                 Name = "Lav",
                 UnitPriceWithoutTax = 90,
@@ -80,9 +80,9 @@ namespace InvoiceWithLayers.DB
                 article.Id,
                 article);
 
-            article = new ArticleDBT()
+            article = new ArticleDTO()
             {
-                ArticleTaxGroup = ArticleDBT.TaxGroup.Reduced,
+                ArticleTaxGroup = ArticleDTO.TaxGroup.Reduced,
                 Code = "3",
                 Name = "Zajecarsko",
                 UnitPriceWithoutTax = 80,
@@ -93,9 +93,9 @@ namespace InvoiceWithLayers.DB
                 article.Id,
                 article);
 
-            article = new ArticleDBT()
+            article = new ArticleDTO()
             {
-                ArticleTaxGroup = ArticleDBT.TaxGroup.Normal,
+                ArticleTaxGroup = ArticleDTO.TaxGroup.Normal,
                 Code = "4",
                 Name = "Budweiser",
                 UnitPriceWithoutTax = 200,
@@ -106,9 +106,9 @@ namespace InvoiceWithLayers.DB
                 article.Id,
                 article);
 
-            article = new ArticleDBT()
+            article = new ArticleDTO()
             {
-                ArticleTaxGroup = ArticleDBT.TaxGroup.Normal,
+                ArticleTaxGroup = ArticleDTO.TaxGroup.Normal,
                 Code = "5",
                 Name = "Heineken",
                 UnitPriceWithoutTax = 150,

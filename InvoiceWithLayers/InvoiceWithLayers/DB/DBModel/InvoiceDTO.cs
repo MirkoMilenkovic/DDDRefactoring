@@ -5,7 +5,7 @@ namespace InvoiceWithLayers.DB.DBModel
     /// <summary>
     /// Maps to Invoice table.
     /// </summary>
-    public class InvoiceDBT : BaseDBT
+    public class InvoiceDTO : BaseDBT
     {
         public enum Status
         {

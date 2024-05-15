@@ -2,6 +2,8 @@
 using InvoiceWithLayers.DB.DBModel;
 using InvoiceWithLayers.MasterData.Articles;
 using InvoiceWithLayers.MasterData.Customers;
+using InvoiceWithLayers.MasterData.DBModel;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceWithLayers
 {
@@ -10,6 +12,7 @@ namespace InvoiceWithLayers
         static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
 
             // Add services to the container.
 
@@ -31,6 +34,8 @@ namespace InvoiceWithLayers
 
             app.MapControllers();
 
+            ConfigureMinimalApi(app);
+
             var db = app.Services.GetRequiredService<InMemoryDB>();
 
             await db.Init();
@@ -47,6 +52,26 @@ namespace InvoiceWithLayers
 
             builder.Services.AddSingleton<CustomerRepository>();
             builder.Services.AddSingleton<CustomerManager>();
+        }
+
+        private static void ConfigureMinimalApi(WebApplication app)
+        {
+            string customerRouteUrl = "/customer";
+
+            RouteGroupBuilder customerRoute = app.MapGroup(customerRouteUrl).WithTags("Customer");
+
+            customerRoute.MapGet(
+                "/all",
+                (HttpContext context,
+                //[AsParameters] GetAllCustomersRequest request,
+                [FromServices] CustomerManager customerManager) =>
+            {
+                GetAllCustomersCommand cmd = new();
+
+                IEnumerable<CustomerDTO> response = customerManager.GetAll(cmd);
+
+                return response;
+            });
         }
     }
 }

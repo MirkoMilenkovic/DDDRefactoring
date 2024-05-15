@@ -2,7 +2,7 @@
 
 namespace InvoiceWithLayers.MasterData.DBModel
 {
-    public class CustomerDBT : BaseDBT
+    public class CustomerDTO : BaseDBT
     {
         public required string Name { get; set; }
     }
