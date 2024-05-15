@@ -5,7 +5,7 @@ namespace InvoiceWithTS.MasterData.Articles
     /// <summary>
     /// Maps to Article table.
     /// </summary>
-    public class ArticleDTO : BaseDBT
+    public class ArticleDTO : BaseDTO
     {
         public enum TaxGroup
         {

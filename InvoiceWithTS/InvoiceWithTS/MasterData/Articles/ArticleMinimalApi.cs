@@ -18,11 +18,9 @@ namespace InvoiceWithTS.MasterData.Articles
                 "/all",
                 (HttpContext context,
                 //[AsParameters] GetAllCustomersRequest request,
-                [FromServices] ArticleManager articleManager) =>
+                [FromServices] ArticleRepository articleRepo) =>
                 {
-                    GetAllArticlesCommand cmd = new();
-
-                    IEnumerable<ArticleDTO> response = articleManager.GetAll(cmd);
+                    IEnumerable<ArticleDTO> response = articleRepo.GetAll();
 
                     return response;
                 })

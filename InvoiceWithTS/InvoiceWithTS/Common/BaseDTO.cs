@@ -1,6 +1,6 @@
 ﻿namespace InvoiceWithTS.Common
 {
-    public abstract class BaseDBT
+    public abstract class BaseDTO
     {
         public required int Id { get; set; }
     }

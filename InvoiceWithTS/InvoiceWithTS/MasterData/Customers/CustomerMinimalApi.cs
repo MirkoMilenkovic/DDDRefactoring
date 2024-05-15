@@ -16,11 +16,9 @@ namespace InvoiceWithTS.MasterData.Customers
                 "/all",
                 (HttpContext context,
                 //[AsParameters] GetAllCustomersRequest request,
-                [FromServices] CustomerManager customerManager) =>
+                [FromServices] CustomerRepository customerRepo) =>
                 {
-                    GetAllCustomersCommand cmd = new();
-
-                    IEnumerable<CustomerDTO> response = customerManager.GetAll(cmd);
+                    IEnumerable<CustomerDTO> response = customerRepo.GetAll();
 
                     return response;
                 })

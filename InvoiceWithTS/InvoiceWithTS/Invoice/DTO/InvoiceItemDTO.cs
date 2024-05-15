@@ -5,7 +5,7 @@ namespace InvoiceWithTS.Invoice.DTO
     /// <summary>
     /// Maps to InvoiceItem table.
     /// </summary>
-    public class InvoiceItemDTO : BaseDBT
+    public class InvoiceItemDTO : BaseDTO
     {
         public required int InvoiceId { get; set; }
 

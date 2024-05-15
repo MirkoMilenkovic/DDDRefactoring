@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="DB\DBModel\" />
-    <Folder Include="Invoice\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ namespace InvoiceWithTS.Invoice.DTO
     /// <summary>
     /// Maps to Invoice table.
     /// </summary>
-    public class InvoiceDTO : BaseDBT
+    public class InvoiceDTO : BaseDTO
     {
         public enum Status
         {

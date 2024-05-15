@@ -47,10 +47,8 @@ namespace InvoiceWithTS
             builder.Services.AddSingleton<InMemoryDB>();
 
             builder.Services.AddSingleton<ArticleRepository>();
-            builder.Services.AddSingleton<ArticleManager>();
 
             builder.Services.AddSingleton<CustomerRepository>();
-            builder.Services.AddSingleton<CustomerManager>();
         }
 
         
