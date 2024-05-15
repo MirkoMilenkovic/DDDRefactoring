@@ -1,11 +1,10 @@
-﻿using InvoiceWithLayers.DB;
-using InvoiceWithLayers.DB.DBModel;
-using InvoiceWithLayers.MasterData.Articles;
-using InvoiceWithLayers.MasterData.Customers;
-using InvoiceWithLayers.MasterData.DBModel;
+﻿using InvoiceWithTS.DB;
+using InvoiceWithTS.MasterData.Articles;
+using InvoiceWithTS.MasterData.Customers;
+using InvoiceWithTS.MasterData.DBModel;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvoiceWithLayers
+namespace InvoiceWithTS
 {
     internal class Program
     {

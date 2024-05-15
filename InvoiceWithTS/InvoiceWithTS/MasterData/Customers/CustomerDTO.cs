@@ -1,6 +1,6 @@
-﻿using InvoiceWithLayers.Common;
+﻿using InvoiceWithTS.Common;
 
-namespace InvoiceWithLayers.MasterData.DBModel
+namespace InvoiceWithTS.MasterData.DBModel
 {
     public class CustomerDTO : BaseDBT
     {

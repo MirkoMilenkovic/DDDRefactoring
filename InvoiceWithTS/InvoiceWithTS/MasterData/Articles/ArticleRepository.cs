@@ -1,6 +1,6 @@
-﻿using InvoiceWithLayers.DB;
+﻿using InvoiceWithTS.DB;
 
-namespace InvoiceWithLayers.MasterData.Articles
+namespace InvoiceWithTS.MasterData.Articles
 {
     public class ArticleRepository
     {

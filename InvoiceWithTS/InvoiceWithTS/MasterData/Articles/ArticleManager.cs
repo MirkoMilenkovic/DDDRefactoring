@@ -1,7 +1,7 @@
-﻿using InvoiceWithLayers.MasterData.Customers;
-using InvoiceWithLayers.MasterData.DBModel;
+﻿using InvoiceWithTS.MasterData.Customers;
+using InvoiceWithTS.MasterData.DBModel;
 
-namespace InvoiceWithLayers.MasterData.Articles
+namespace InvoiceWithTS.MasterData.Articles
 {
     public class ArticleManager
     {

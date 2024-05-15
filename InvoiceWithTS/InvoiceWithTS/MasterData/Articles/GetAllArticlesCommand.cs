@@ -1,4 +1,4 @@
-﻿namespace InvoiceWithLayers.MasterData.Articles
+﻿namespace InvoiceWithTS.MasterData.Articles
 {
     public class GetAllArticlesCommand
     {

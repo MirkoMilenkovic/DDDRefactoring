@@ -1,6 +1,6 @@
-﻿using InvoiceWithLayers.Common;
+﻿using InvoiceWithTS.Common;
 
-namespace InvoiceWithLayers.MasterData.Articles
+namespace InvoiceWithTS.MasterData.Articles
 {
     /// <summary>
     /// Maps to Article table.

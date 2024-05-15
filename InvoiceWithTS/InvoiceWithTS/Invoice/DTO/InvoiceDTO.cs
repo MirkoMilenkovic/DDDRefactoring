@@ -1,6 +1,6 @@
-﻿using InvoiceWithLayers.Common;
+﻿using InvoiceWithTS.Common;
 
-namespace InvoiceWithLayers.DB.DBModel
+namespace InvoiceWithTS.Invoice.DTO
 {
     /// <summary>
     /// Maps to Invoice table.
@@ -14,7 +14,7 @@ namespace InvoiceWithLayers.DB.DBModel
             Canceled
         }
 
-        public  required int CustomerId { get; set; }
+        public required int CustomerId { get; set; }
 
         public required DateTime InvoiceDate { get; set; }
 

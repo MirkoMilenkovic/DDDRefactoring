@@ -1,7 +1,7 @@
-﻿using InvoiceWithLayers.MasterData.DBModel;
+﻿using InvoiceWithTS.MasterData.DBModel;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvoiceWithLayers.MasterData.Customers
+namespace InvoiceWithTS.MasterData.Customers
 {
     public static class CustomerMinimalApi
     {

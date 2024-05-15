@@ -1,4 +1,4 @@
-﻿namespace InvoiceWithLayers.MasterData.Customers
+﻿namespace InvoiceWithTS.MasterData.Customers
 {
     public class GetAllCustomersCommand
     {

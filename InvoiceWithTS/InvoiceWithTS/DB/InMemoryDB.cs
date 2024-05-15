@@ -1,9 +1,9 @@
-﻿using InvoiceWithLayers.DB.DBModel;
-using InvoiceWithLayers.MasterData.Articles;
-using InvoiceWithLayers.MasterData.DBModel;
+﻿using InvoiceWithTS.Invoice.DTO;
+using InvoiceWithTS.MasterData.Articles;
+using InvoiceWithTS.MasterData.DBModel;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace InvoiceWithLayers.DB
+namespace InvoiceWithTS.DB
 {
     /// <summary>
     /// Fake DB.

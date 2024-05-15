@@ -1,6 +1,6 @@
-﻿using InvoiceWithLayers.Common;
+﻿using InvoiceWithTS.Common;
 
-namespace InvoiceWithLayers.DB.DBModel
+namespace InvoiceWithTS.Invoice.DTO
 {
     /// <summary>
     /// Maps to InvoiceItem table.

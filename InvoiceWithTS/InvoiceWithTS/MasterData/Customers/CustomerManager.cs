@@ -1,6 +1,6 @@
-﻿using InvoiceWithLayers.MasterData.DBModel;
+﻿using InvoiceWithTS.MasterData.DBModel;
 
-namespace InvoiceWithLayers.MasterData.Customers
+namespace InvoiceWithTS.MasterData.Customers
 {
     public class CustomerManager
     {

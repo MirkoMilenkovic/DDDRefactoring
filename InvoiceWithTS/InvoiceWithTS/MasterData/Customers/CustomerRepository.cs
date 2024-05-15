@@ -1,8 +1,8 @@
-﻿using InvoiceWithLayers.DB;
-using InvoiceWithLayers.MasterData.Articles;
-using InvoiceWithLayers.MasterData.DBModel;
+﻿using InvoiceWithTS.DB;
+using InvoiceWithTS.MasterData.Articles;
+using InvoiceWithTS.MasterData.DBModel;
 
-namespace InvoiceWithLayers.MasterData.Customers
+namespace InvoiceWithTS.MasterData.Customers
 {
     public class CustomerRepository
     {

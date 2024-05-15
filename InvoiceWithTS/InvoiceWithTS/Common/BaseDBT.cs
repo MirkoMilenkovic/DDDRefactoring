@@ -1,4 +1,4 @@
-﻿namespace InvoiceWithLayers.Common
+﻿namespace InvoiceWithTS.Common
 {
     public abstract class BaseDBT
     {

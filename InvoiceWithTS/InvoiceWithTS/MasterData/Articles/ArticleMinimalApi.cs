@@ -1,8 +1,8 @@
-﻿using InvoiceWithLayers.MasterData.Customers;
-using InvoiceWithLayers.MasterData.DBModel;
+﻿using InvoiceWithTS.MasterData.Customers;
+using InvoiceWithTS.MasterData.DBModel;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvoiceWithLayers.MasterData.Articles
+namespace InvoiceWithTS.MasterData.Articles
 {
     public static class ArticleMinimalApi
     {
