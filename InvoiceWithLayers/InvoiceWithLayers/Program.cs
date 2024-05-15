@@ -54,24 +54,13 @@ namespace InvoiceWithLayers
             builder.Services.AddSingleton<CustomerManager>();
         }
 
+        
         private static void ConfigureMinimalApi(WebApplication app)
         {
-            string customerRouteUrl = "/customer";
+            app.ConfigureCustomerMinimalApi();
 
-            RouteGroupBuilder customerRoute = app.MapGroup(customerRouteUrl).WithTags("Customer");
-
-            customerRoute.MapGet(
-                "/all",
-                (HttpContext context,
-                //[AsParameters] GetAllCustomersRequest request,
-                [FromServices] CustomerManager customerManager) =>
-            {
-                GetAllCustomersCommand cmd = new();
-
-                IEnumerable<CustomerDTO> response = customerManager.GetAll(cmd);
-
-                return response;
-            });
+            app.ConfigureArticleMinimalApi();
         }
+
     }
 }
