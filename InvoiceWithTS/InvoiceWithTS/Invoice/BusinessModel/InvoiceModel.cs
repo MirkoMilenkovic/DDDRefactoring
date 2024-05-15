@@ -1,13 +1,11 @@
-﻿using InvoiceWithTS.Common;
+﻿using InvoiceWithTS.Invoice.DTO;
+using static InvoiceWithTS.Invoice.DTO.InvoiceDTO;
 
-namespace InvoiceWithTS.Invoice.DTO
+namespace InvoiceWithTS.Invoice.BusinessModel
 {
-    /// <summary>
-    /// Maps to Invoice table.
-    /// </summary>
-    public class InvoiceDTO : BaseDTO
+    public class InvoiceModel
     {
-
+        public required int Id { get; set; }
 
         public required string InvoiceNumber { get; set; }
 
@@ -15,9 +13,6 @@ namespace InvoiceWithTS.Invoice.DTO
 
         public required DateTime InvoiceDate { get; set; }
 
-        /// <summary>
-        /// varchar column with CHECK constraint
-        /// </summary>
         public required InvoiceStatuses Status { get; set; }
 
         public required decimal PriceWithoutTax { get; set; } = 0M;
@@ -28,5 +23,6 @@ namespace InvoiceWithTS.Invoice.DTO
 
         public required decimal PriceWithTax { get; set; } = 0M;
 
+        public List<InvoiceItemModel> Items { get; set; } = new List<InvoiceItemModel>();
     }
 }
