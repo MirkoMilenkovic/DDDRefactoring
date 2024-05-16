@@ -1,4 +1,5 @@
 ﻿using InvoiceWithTS.DB;
+using InvoiceWithTS.Invoice;
 using InvoiceWithTS.MasterData.Articles;
 using InvoiceWithTS.MasterData.Customers;
 using InvoiceWithTS.MasterData.DBModel;
@@ -49,9 +50,10 @@ namespace InvoiceWithTS
             builder.Services.AddSingleton<ArticleRepository>();
 
             builder.Services.AddSingleton<CustomerRepository>();
-        }
 
-        
+            builder.Services.AddSingleton<InvoiceRepository>();
+        }
+                
         private static void ConfigureMinimalApi(WebApplication app)
         {
             app.ConfigureCustomerMinimalApi();
