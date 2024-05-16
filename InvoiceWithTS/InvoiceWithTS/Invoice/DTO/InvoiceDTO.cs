@@ -7,8 +7,6 @@ namespace InvoiceWithTS.Invoice.DTO
     /// </summary>
     public class InvoiceDTO : BaseDTO
     {
-
-
         public required string InvoiceNumber { get; set; }
 
         public required int CustomerId { get; set; }

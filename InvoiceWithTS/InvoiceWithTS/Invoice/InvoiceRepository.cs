@@ -2,6 +2,7 @@
 using InvoiceWithTS.DB;
 using InvoiceWithTS.Invoice.BusinessModel;
 using InvoiceWithTS.Invoice.DTO;
+using InvoiceWithTS.Invoice.UseCases.GetAllInvoices;
 using System.Transactions;
 
 namespace InvoiceWithTS.Invoice
@@ -105,6 +106,27 @@ namespace InvoiceWithTS.Invoice
             {
                 item.EntityState = EntityStates.Updated;
             }
+        }
+
+        public IEnumerable<GetAllInvoicesResponseItem> GetAll()
+        {
+            List<GetAllInvoicesResponseItem> responseItemList = new List<GetAllInvoicesResponseItem>();
+
+            ILookup<int, InvoiceItemDTO> itemsGroupedByInvoiceId = _db.InvoiceItem.Values
+                .ToLookup(p => p.InvoiceId, p => p);
+
+            foreach (InvoiceDTO invoiceDto in _db.Invoice.Values)
+            {
+                IEnumerable<InvoiceItemDTO> itemsForInvoice = itemsGroupedByInvoiceId[invoiceDto.Id];
+
+                GetAllInvoicesResponseItem responseItem = new GetAllInvoicesResponseItem(
+                    Invoice: invoiceDto,
+                    Items: itemsForInvoice);
+
+                responseItemList.Add(responseItem);
+            }
+
+            return responseItemList;
         }
     }
 }
