@@ -55,7 +55,7 @@ namespace InvoiceWithTS
 
             builder.Services.AddSingleton<InvoiceRepository>();
 
-            builder.Services.AddSingleton<InvoiceManager>();
+            builder.Services.AddSingleton<InvoiceCommandHandler>();
         }
                 
         private static void ConfigureMinimalApi(WebApplication app)

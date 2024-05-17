@@ -15,5 +15,14 @@ namespace InvoiceWithTS.MasterData.Articles
         {
             return _db.Article.Values;
         }
+
+        public ArticleDTO? GetById(int id)
+        {
+            _db.Article.TryGetValue(
+                id,
+                out var article) ;
+
+            return article;
+        }
     }
 }
