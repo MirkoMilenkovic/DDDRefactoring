@@ -21,6 +21,8 @@ namespace InvoiceWithTS.Invoice.BusinessModel
 
         public required decimal PriceWithTax { get; set; }
 
+        public required decimal TaxRate { get; set; }
+
         public static InvoiceItemModel FromDTO(
             InvoiceItemDTO itemDTO,
             InvoiceModel invoiceModel,
@@ -36,6 +38,7 @@ namespace InvoiceWithTS.Invoice.BusinessModel
                 PriceWithTax = itemDTO.PriceWithTax,
                 Quantity = itemDTO.Quantity,
                 Tax = itemDTO.Tax,
+                TaxRate = itemDTO.TaxRate,
             };
 
             return itemModel;
@@ -52,7 +55,8 @@ namespace InvoiceWithTS.Invoice.BusinessModel
                 PriceWithoutTax = itemModel.PriceWithoutTax,
                 PriceWithTax = itemModel.PriceWithTax,
                 Quantity = itemModel.Quantity,
-                Tax = itemModel.Tax
+                Tax = itemModel.Tax,
+                TaxRate = itemModel.TaxRate,
             };
 
             return itemDto;

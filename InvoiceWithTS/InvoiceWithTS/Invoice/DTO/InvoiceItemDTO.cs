@@ -18,5 +18,7 @@ namespace InvoiceWithTS.Invoice.DTO
         public required decimal Tax { get; set; }
 
         public required decimal PriceWithTax { get; set; }
+
+        public required decimal TaxRate { get; set; }
     }
 }

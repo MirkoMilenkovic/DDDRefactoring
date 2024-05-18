@@ -1,5 +1,6 @@
 ﻿using InvoiceWithTS.DB;
 using InvoiceWithTS.Invoice;
+using InvoiceWithTS.Invoice.UseCases.AddItem;
 using InvoiceWithTS.Invoice.UseCases.CreateInvoice;
 using InvoiceWithTS.Invoice.UseCases.GetAllInvoices;
 using InvoiceWithTS.MasterData.Articles;
@@ -56,6 +57,8 @@ namespace InvoiceWithTS
             builder.Services.AddSingleton<InvoiceRepository>();
 
             builder.Services.AddSingleton<InvoiceCommandHandler>();
+
+            builder.Services.AddSingleton<AddItemCommandHandler>();
         }
                 
         private static void ConfigureMinimalApi(WebApplication app)
@@ -67,6 +70,8 @@ namespace InvoiceWithTS
             app.ConfigureCreateInvoiceMinimalApi();
 
             app.ConfigureGetAllInvoicesMinimalApi();
+
+            app.ConfigureAddItemMinimalApi();
         }
 
     }

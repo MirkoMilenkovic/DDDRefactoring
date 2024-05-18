@@ -11,6 +11,10 @@ namespace InvoiceWithTS.Invoice
 {
     public class InvoiceCommandHandler
     {
+        private const decimal TAX_RATE_NORMAL = .2M;
+
+        private const decimal TAX_RATE_REDUCED = .1M;
+
         private InvoiceRepository _invoiceRepo;
 
         private ArticleRepository _articleRepo;
@@ -51,52 +55,58 @@ namespace InvoiceWithTS.Invoice
             return invoiceModel;
         }
 
-        internal InvoiceModel AddItem(
-            AddItemCommand request)
+
+        /// <summary>
+        /// Mutates item.
+        /// </summary>
+        public void CalculateMoney(
+            InvoiceItemModel item,
+            ArticleDTO article)
         {
-            InvoiceModel? invoiceModel = _invoiceRepo.GetById(
-                request.InvoiceId);
+            item.PriceWithoutTax = article.UnitPriceWithoutTax * item.Quantity;
 
-            if (invoiceModel == null)
+            switch (article.ArticleTaxGroup)
             {
-                throw new Exception($"{request.InvoiceId} not found");
+                case ArticleDTO.TaxGroup.Normal:
+                    item.TaxRate = TAX_RATE_NORMAL;
+                    break;
+                case ArticleDTO.TaxGroup.Reduced:
+                    item.TaxRate = TAX_RATE_REDUCED;
+                    break;
+                default:
+                    throw new Exception($"Tax man came up with unexpected tax group: {article.ArticleTaxGroup}");
             }
 
-            ArticleDTO? article = _articleRepo.GetById(
-                request.ArticleId);
+            item.Tax = item.TaxRate * item.PriceWithoutTax;
 
-            if (article == null)
+            item.PriceWithTax = item.PriceWithoutTax + item.Tax;
+        }
+
+        public void CalculateMoney(
+           InvoiceModel invoice)
+        {
+            // reset
+            invoice.PriceWithoutTax = 0M;
+            invoice.PriceWithTax = 0M;
+            invoice.TaxAtNormalRate = 0M;
+            invoice.TaxAtReducedRate = 0M;
+
+            foreach (InvoiceItemModel item in invoice.Items)
             {
-                throw new Exception($"Article: {request.ArticleId} not found");
+                invoice.PriceWithoutTax += item.PriceWithoutTax;
+                if (item.TaxRate == TAX_RATE_NORMAL)
+                {
+                    invoice.TaxAtNormalRate += item.Tax;
+                }
+                else if (item.TaxRate == TAX_RATE_REDUCED)
+                {
+                    invoice.TaxAtReducedRate += item.Tax;
+                }
             }
 
-            InvoiceItemModel itemModel = new InvoiceItemModel()
-            {
-                Id = 0, // We'll assign during Save 
-                EntityState = EntityStates.New,
-                Invoice = invoiceModel,
-                ArticleId = request.ArticleId,
-                Quantity = request.Quantity,
-                PriceWithoutTax = 0M, // Invalid
-                PriceWithTax = 0M, // Invalid
-                Tax = 0M // Invalid
-            };
-            // at this moment, itemModel is invalid, because no tax
-            
-            invoiceModel.Items.Add(itemModel);
-            // right now, invoiceModel is invalid
-
-            // start save
-            using TransactionScope ts = new TransactionScope();
-
-            // Save invoice
-            _invoiceRepo.Save(
-                invoiceModel);
-
-            // complete tran
-            ts.Complete();
-
-            return invoiceModel;
+            invoice.PriceWithTax = invoice.PriceWithoutTax
+                + invoice.TaxAtReducedRate
+                + invoice.TaxAtNormalRate;
         }
     }
 }

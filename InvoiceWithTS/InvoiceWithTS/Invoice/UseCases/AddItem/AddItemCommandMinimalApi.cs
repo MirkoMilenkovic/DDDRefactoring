@@ -8,7 +8,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
 {
     public static class AddItemCommandMinimalApi
     {
-        public static void ConfigureAddItemCommandMinimalApi(this WebApplication app)
+        public static void ConfigureAddItemMinimalApi(this WebApplication app)
         {
             RouteGroupBuilder invoiceGroupBuilder = InvoiceRouteGroupBuilder.Get(app);
 
@@ -19,12 +19,23 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
 
         private static Ok<AddItemResponse> AddItem(
             [FromBody] AddItemCommand addItemRequest,
-            InvoiceCommandHandler commandHandler)
+            AddItemCommandHandler commandHandler)
         {
             InvoiceModel invoiceModel = commandHandler.AddItem(addItemRequest);
 
             InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(invoiceModel);
-            AddItemResponse response = new AddItemResponse(invoiceDTO);
+
+            List<InvoiceItemDTO> itemDTOList = new();
+            foreach(var itemModel in invoiceModel.Items)
+            {
+                InvoiceItemDTO itemDTO = InvoiceItemModel.ToDTO(itemModel);
+                itemDTOList.Add(itemDTO);
+            }
+            
+            AddItemResponse response = new AddItemResponse(
+                invoiceDTO,
+                itemDTOList);
+
             return TypedResults.Ok(response);
         }
     }
