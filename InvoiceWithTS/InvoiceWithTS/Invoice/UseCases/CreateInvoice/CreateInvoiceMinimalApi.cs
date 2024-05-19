@@ -25,7 +25,7 @@ namespace InvoiceWithTS.Invoice.UseCases.CreateInvoice
         // Yeah, yeah, I know that C in CQS shoud not return anything. If so, how is user going to see business rules that were applied?
         private static Ok<CreateInvoiceResponse> Create(
             [FromBody] CreateInvoiceCommand createRequest,
-            InvoiceCommandHandler invoiceManager)
+            CreateInvoiceCommandHandler invoiceManager)
         {
             InvoiceModel invoiceModel = invoiceManager.Create(createRequest);
 
