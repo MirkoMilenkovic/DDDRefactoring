@@ -24,7 +24,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
         }
 
         public InvoiceModel AddItem(
-            AddItemCommand request)
+            UpdateItemCommand request)
         {
             InvoiceModel? invoiceModel = _invoiceRepo.GetById(
                 request.InvoiceId);
@@ -49,6 +49,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
                 Invoice = invoiceModel,
                 ArticleId = request.ArticleId,
                 Quantity = request.Quantity,
+                UnitPriceWithoutTax = 0M, // Invalid
                 PriceWithoutTax = 0M, // Invalid
                 PriceWithTax = 0M, // Invalid
                 Tax = 0M, // Invalid
@@ -58,8 +59,9 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
 
             // Calculate
             _commonLogic.CalculateMoney(
-                itemModel,
-                article);
+                item: itemModel,
+                articleTaxGroup: article.ArticleTaxGroup,
+                articleUnitPriceWithoutTax: article.UnitPriceWithoutTax);
 
             invoiceModel.Items.Add(itemModel);
             // right now, invoiceModel is invalid

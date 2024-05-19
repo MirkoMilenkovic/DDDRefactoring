@@ -19,13 +19,13 @@ namespace InvoiceWithTS.Invoice
         /// <summary>
         /// Mutates item.
         /// </summary>
+        // Note that I'm not sending Article, but its properties.
         public void CalculateMoney(
             InvoiceItemModel item,
-            ArticleDTO article)
+            ArticleDTO.TaxGroup articleTaxGroup,
+            decimal articleUnitPriceWithoutTax)
         {
-            item.PriceWithoutTax = article.UnitPriceWithoutTax * item.Quantity;
-
-            switch (article.ArticleTaxGroup)
+            switch (articleTaxGroup)
             {
                 case ArticleDTO.TaxGroup.Normal:
                     item.TaxRate = TAX_RATE_NORMAL;
@@ -34,8 +34,18 @@ namespace InvoiceWithTS.Invoice
                     item.TaxRate = TAX_RATE_REDUCED;
                     break;
                 default:
-                    throw new Exception($"Tax man came up with unexpected tax group: {article.ArticleTaxGroup}");
+                    throw new Exception($"Tax man came up with unexpected tax group: {articleTaxGroup}");
             }
+
+            item.UnitPriceWithoutTax = articleUnitPriceWithoutTax;
+
+            CalculateMoney(item);
+        }
+
+        public void CalculateMoney(
+            InvoiceItemModel item)
+        {
+            item.PriceWithoutTax = item.UnitPriceWithoutTax * item.Quantity;
 
             item.Tax = item.TaxRate * item.PriceWithoutTax;
 

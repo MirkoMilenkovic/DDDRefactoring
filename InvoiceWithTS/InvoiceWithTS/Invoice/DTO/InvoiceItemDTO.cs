@@ -13,6 +13,8 @@ namespace InvoiceWithTS.Invoice.DTO
 
         public required int Quantity { get; set; }
 
+        public required decimal UnitPriceWithoutTax { get; set; }
+
         public required decimal PriceWithoutTax { get; set; }
 
         public required decimal Tax { get; set; }

@@ -3,6 +3,7 @@ using InvoiceWithTS.Invoice;
 using InvoiceWithTS.Invoice.UseCases.AddItem;
 using InvoiceWithTS.Invoice.UseCases.CreateInvoice;
 using InvoiceWithTS.Invoice.UseCases.GetAllInvoices;
+using InvoiceWithTS.Invoice.UseCases.UpdateItem;
 using InvoiceWithTS.MasterData.Articles;
 using InvoiceWithTS.MasterData.Customers;
 using InvoiceWithTS.MasterData.DBModel;
@@ -60,7 +61,7 @@ namespace InvoiceWithTS
 
             builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
 
-            builder.Services.AddSingleton<AddItemCommandHandler>();
+            builder.Services.AddSingleton<UpdateItemCommandHandler>();
         }
                 
         private static void ConfigureMinimalApi(WebApplication app)
@@ -74,6 +75,8 @@ namespace InvoiceWithTS
             app.ConfigureGetAllInvoicesMinimalApi();
 
             app.ConfigureAddItemMinimalApi();
+
+            app.ConfigureUpdateItemMinimalApi();
         }
 
     }

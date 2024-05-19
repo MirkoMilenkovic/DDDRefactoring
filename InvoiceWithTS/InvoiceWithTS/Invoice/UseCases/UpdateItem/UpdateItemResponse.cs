@@ -1,6 +1,6 @@
 ﻿using InvoiceWithTS.Invoice.DTO;
 
-namespace InvoiceWithTS.Invoice.UseCases.AddItem
+namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
 {
     public record UpdateItemResponse(
         InvoiceDTO Invoice, 
