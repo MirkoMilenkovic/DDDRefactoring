@@ -7,14 +7,14 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
 {
     public class AddItemCommandHandler
     {
-        private InvoiceCommandHandler _commonLogic;
+        private InvoiceCommonLogic _commonLogic;
 
         private InvoiceRepository _invoiceRepo;
 
         private ArticleRepository _articleRepo;
 
         public AddItemCommandHandler(
-            InvoiceCommandHandler commonLogic,
+            InvoiceCommonLogic commonLogic,
             InvoiceRepository invoiceRepo,
             ArticleRepository articleRepo)
         {

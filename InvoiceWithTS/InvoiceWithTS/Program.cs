@@ -56,7 +56,9 @@ namespace InvoiceWithTS
 
             builder.Services.AddSingleton<InvoiceRepository>();
 
-            builder.Services.AddSingleton<InvoiceCommandHandler>();
+            builder.Services.AddSingleton<InvoiceCommonLogic>();
+
+            builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
 
             builder.Services.AddSingleton<AddItemCommandHandler>();
         }
