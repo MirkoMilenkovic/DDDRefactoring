@@ -61,6 +61,8 @@ namespace InvoiceWithTS
 
             builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
 
+            builder.Services.AddSingleton<AddItemCommandHandler>();
+
             builder.Services.AddSingleton<UpdateItemCommandHandler>();
         }
                 

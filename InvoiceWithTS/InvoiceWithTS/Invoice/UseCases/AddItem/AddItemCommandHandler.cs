@@ -24,7 +24,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
         }
 
         public InvoiceModel AddItem(
-            UpdateItemCommand request)
+            AddItemCommand request)
         {
             InvoiceModel? invoiceModel = _invoiceRepo.GetById(
                 request.InvoiceId);

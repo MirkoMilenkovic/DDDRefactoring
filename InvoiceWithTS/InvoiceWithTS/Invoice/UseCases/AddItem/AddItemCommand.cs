@@ -1,6 +1,6 @@
 ﻿namespace InvoiceWithTS.Invoice.UseCases.AddItem
 {
-    public record UpdateItemCommand(
+    public record AddItemCommand(
         int InvoiceId, 
         int ArticleId,
         int Quantity

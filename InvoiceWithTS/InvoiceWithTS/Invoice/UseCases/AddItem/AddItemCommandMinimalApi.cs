@@ -16,8 +16,8 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
                     handler: AddItem);
         }
 
-        private static Ok<UpdateItemResponse> AddItem(
-            [FromBody] UpdateItemCommand addItemRequest,
+        private static Ok<AddItemResponse> AddItem(
+            [FromBody] AddItemCommand addItemRequest,
             AddItemCommandHandler commandHandler)
         {
             InvoiceModel invoiceModel = commandHandler.AddItem(addItemRequest);
@@ -31,7 +31,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
                 itemDTOList.Add(itemDTO);
             }
             
-            UpdateItemResponse response = new UpdateItemResponse(
+            AddItemResponse response = new AddItemResponse(
                 invoiceDTO,
                 itemDTOList);
 

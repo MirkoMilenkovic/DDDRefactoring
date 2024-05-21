@@ -2,7 +2,7 @@
 
 namespace InvoiceWithTS.Invoice.UseCases.AddItem
 {
-    public record UpdateItemResponse(
+    public record AddItemResponse(
         InvoiceDTO Invoice, 
         IEnumerable<InvoiceItemDTO> ItemList);
 }
