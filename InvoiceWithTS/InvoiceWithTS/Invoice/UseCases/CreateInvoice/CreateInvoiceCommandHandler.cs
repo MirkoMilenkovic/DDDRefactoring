@@ -5,12 +5,14 @@ namespace InvoiceWithTS.Invoice.UseCases.CreateInvoice
 {
     public class CreateInvoiceCommandHandler
     {
-        private InvoiceRepository _invoiceRepo;
+        private readonly InvoiceRepository _invoiceRepo;
 
-        public CreateInvoiceCommandHandler(InvoiceRepository invoiceRepo)
+        public CreateInvoiceCommandHandler(
+            InvoiceRepository invoiceRepo)
         {
             _invoiceRepo = invoiceRepo;
         }
+
 
         /// <summary>
         /// Returns new Invoice.

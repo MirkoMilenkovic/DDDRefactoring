@@ -15,6 +15,8 @@ namespace InvoiceWithTS.Invoice.BusinessModel
 
         public required int Quantity { get; set; }
 
+        public required decimal UnitPriceWithoutTax { get; set; }
+
         public required decimal PriceWithoutTax { get; set; }
 
         public required decimal Tax { get; set; }
@@ -34,6 +36,7 @@ namespace InvoiceWithTS.Invoice.BusinessModel
                 EntityState = entityState,
                 ArticleId = itemDTO.ArticleId,
                 Invoice = invoiceModel,
+                UnitPriceWithoutTax = itemDTO.UnitPriceWithoutTax,
                 PriceWithoutTax = itemDTO.PriceWithoutTax,
                 PriceWithTax = itemDTO.PriceWithTax,
                 Quantity = itemDTO.Quantity,
@@ -52,6 +55,7 @@ namespace InvoiceWithTS.Invoice.BusinessModel
                 ArticleId = itemModel.ArticleId,
                 Id = itemModel.Id,
                 InvoiceId = itemModel.Invoice.Id, // Note this.
+                UnitPriceWithoutTax = itemModel.UnitPriceWithoutTax,
                 PriceWithoutTax = itemModel.PriceWithoutTax,
                 PriceWithTax = itemModel.PriceWithTax,
                 Quantity = itemModel.Quantity,
@@ -60,7 +64,6 @@ namespace InvoiceWithTS.Invoice.BusinessModel
             };
 
             return itemDto;
-
         }
     }
 }

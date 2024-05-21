@@ -1,26 +1,27 @@
 ﻿using InvoiceWithTS.Invoice.BusinessModel;
 using InvoiceWithTS.Invoice.DTO;
+using InvoiceWithTS.Invoice.UseCases.CreateInvoice;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvoiceWithTS.Invoice.UseCases.AddItem
+namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
 {
     public static class UpdateItemCommandMinimalApi
     {
-        public static void ConfigureAddItemMinimalApi(this WebApplication app)
+        public static void ConfigureUpdateItemMinimalApi(this WebApplication app)
         {
             RouteGroupBuilder invoiceGroupBuilder = InvoiceRouteGroupBuilder.Get(app);
 
             invoiceGroupBuilder.MapPost(
-                    pattern: "/add-item",
-                    handler: AddItem);
+                    pattern: "/update-item",
+                    handler: UpdateItem);
         }
 
-        private static Ok<UpdateItemResponse> AddItem(
+        private static Ok<UpdateItemResponse> UpdateItem(
             [FromBody] UpdateItemCommand addItemRequest,
-            AddItemCommandHandler commandHandler)
+            UpdateItemCommandHandler commandHandler)
         {
-            InvoiceModel invoiceModel = commandHandler.AddItem(addItemRequest);
+            InvoiceModel invoiceModel = commandHandler.UpdateItem(addItemRequest);
 
             InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(invoiceModel);
 
