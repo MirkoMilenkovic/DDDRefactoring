@@ -45,6 +45,11 @@ namespace InvoiceWithTS.Invoice
         public void CalculateMoney(
             InvoiceItemModel item)
         {
+            if(item.TaxRate == 0)
+            {
+                throw new InvalidOperationException("TaxRate is not determined. Call other method, that accepts TaxGroup");
+            }
+
             item.PriceWithoutTax = item.UnitPriceWithoutTax * item.Quantity;
 
             item.Tax = item.TaxRate * item.PriceWithoutTax;
