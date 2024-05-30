@@ -67,6 +67,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
             // right now, invoiceModel is invalid
 
             // Calculate
+            // oops. If I forget this, Tax man comes!!!!
             _commonLogic.CalculateMoney(
                 invoiceModel);
 

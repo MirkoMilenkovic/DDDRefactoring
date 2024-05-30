@@ -1,6 +1,7 @@
 ﻿using InvoiceWithTS.Invoice.DTO;
 using InvoiceWithTS.MasterData.Articles;
 using InvoiceWithTS.MasterData.DBModel;
+using InvoiceWithTS.MasterData.Inventory;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace InvoiceWithTS.DB
@@ -12,24 +13,28 @@ namespace InvoiceWithTS.DB
     {
         private int _sequenceNumber = 0;
 
-        public Dictionary<int, InvoiceDTO> Invoice { get; } = new Dictionary<int, InvoiceDTO>();
+        public Dictionary<int, InvoiceDTO> Invoice { get; } = new();
 
-        public Dictionary<int, InvoiceItemDTO> InvoiceItem { get; } = new Dictionary<int, InvoiceItemDTO>();
+        public Dictionary<int, InvoiceItemDTO> InvoiceItem { get; } = new();
 
-        public Dictionary<int, ArticleDTO> Article { get; } = new Dictionary<int, ArticleDTO>();
+        public Dictionary<int, ArticleDTO> Article { get; } = new();
 
-        public Dictionary<int, CustomerDTO> Customer { get; } = new Dictionary<int, CustomerDTO>();
+        public Dictionary<int, CustomerDTO> Customer { get; } = new();
+
+        public Dictionary<int, InventoryItemDTO> InventoryItem { get; } = new();
 
         public async Task Init()
         {
             InitArticles();
 
-            CustomersInit();
+            InitCustomers();
+
+            InitInventory();
 
             await Task.CompletedTask;
         }
 
-        private void CustomersInit()
+        private void InitCustomers()
         {
             CustomerDTO customer = new CustomerDTO()
             {
@@ -118,6 +123,23 @@ namespace InvoiceWithTS.DB
             this.Article.Add(
                 article.Id,
                 article);
+        }
+
+        private void InitInventory()
+        {
+            foreach (ArticleDTO article in this.Article.Values)
+            {
+                InventoryItemDTO inventoryItem = new()
+                {
+                    ArticleId = article.Id,
+                    Quantity = 10,
+                    Id = GetNextId()
+                };
+
+                this.InventoryItem.Add(
+                    inventoryItem.Id,
+                    inventoryItem);
+            }
         }
 
         public int GetNextId()
