@@ -43,17 +43,9 @@ namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
             // at this moment, itemModel is invalid, because tax is wrong
 
             // Calculate
-            // Oops. If I forget this, Tax man comes!!!!
+            // ooops. If I forget this, Tax man comes!!!!
             _commonLogic.CalculateMoney(
                 itemModel);
-
-            invoiceModel.Items.Add(itemModel);
-            // right now, invoiceModel is invalid
-
-            // Calculate
-            // Oops. If I forget this, Tax man comes!!!!
-            _commonLogic.CalculateMoney(
-                invoiceModel);
 
             // start save
             using TransactionScope ts = new TransactionScope();

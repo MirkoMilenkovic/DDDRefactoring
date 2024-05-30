@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ###
 @ItemId = 8
-POST {{HostAddress}}/invoice/update-item
+PATCH {{HostAddress}}/invoice/update-item
 Content-Type: application/json
 
 {
@@ -39,4 +39,10 @@ Content-Type: application/json
   "quantity": 10
 }
 
+###
+PATCH {{HostAddress}}/invoice/make-final
+Content-Type: application/json
 
+{
+  "invoiceId": {{InvoiceId}}
+}

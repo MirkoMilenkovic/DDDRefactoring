@@ -1,38 +1,37 @@
 ﻿using InvoiceWithTS.Invoice.BusinessModel;
 using InvoiceWithTS.Invoice.DTO;
-using InvoiceWithTS.Invoice.UseCases.CreateInvoice;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
+namespace InvoiceWithTS.Invoice.UseCases.Finalize
 {
-    public static class UpdateItemCommandMinimalApi
+    public static class MakeFinalMinimalApi
     {
-        public static void ConfigureUpdateItemMinimalApi(this WebApplication app)
+        public static void ConfigureMakeFinalMinimalApi(this WebApplication app)
         {
             RouteGroupBuilder invoiceGroupBuilder = InvoiceRouteGroupBuilder.Get(app);
 
             invoiceGroupBuilder.MapPatch(
-                    pattern: "/update-item",
-                    handler: UpdateItem);
+                    pattern: "/make-final",
+                    handler: MakeFinal);
         }
 
-        private static Ok<UpdateItemResponse> UpdateItem(
-            [FromBody] UpdateItemCommand addItemRequest,
-            UpdateItemCommandHandler commandHandler)
+        private static Ok<MakeFinalResponse> MakeFinal(
+           [FromBody] MakeFinalCommand finalizeRequest,
+           MakeFinalCommandHandler commandHandler)
         {
-            InvoiceModel invoiceModel = commandHandler.UpdateItem(addItemRequest);
+            InvoiceModel invoiceModel = commandHandler.MakeFinal(request: finalizeRequest);
 
             InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(invoiceModel);
 
             List<InvoiceItemDTO> itemDTOList = new();
-            foreach(var itemModel in invoiceModel.Items)
+            foreach (var itemModel in invoiceModel.Items)
             {
                 InvoiceItemDTO itemDTO = InvoiceItemModel.ToDTO(itemModel);
                 itemDTOList.Add(itemDTO);
             }
-            
-            UpdateItemResponse response = new UpdateItemResponse(
+
+            MakeFinalResponse response = new MakeFinalResponse(
                 invoiceDTO,
                 itemDTOList);
 
