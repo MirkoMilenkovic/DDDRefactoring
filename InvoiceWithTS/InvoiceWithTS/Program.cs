@@ -1,4 +1,6 @@
 ﻿using InvoiceWithTS.DB;
+using InvoiceWithTS.Inventory;
+using InvoiceWithTS.Inventory.GetInventory;
 using InvoiceWithTS.Invoice;
 using InvoiceWithTS.Invoice.UseCases.AddItem;
 using InvoiceWithTS.Invoice.UseCases.CreateInvoice;
@@ -58,6 +60,8 @@ namespace InvoiceWithTS
 
             builder.Services.AddSingleton<InvoiceRepository>();
 
+            builder.Services.AddSingleton<InventoryItemRepository>();
+
             builder.Services.AddSingleton<InvoiceCommonLogic>();
 
             builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
@@ -67,8 +71,10 @@ namespace InvoiceWithTS
             builder.Services.AddSingleton<UpdateItemCommandHandler>();
 
             builder.Services.AddSingleton<MakeFinalCommandHandler>();
+
+
         }
-                
+
         private static void ConfigureMinimalApi(WebApplication app)
         {
             app.ConfigureCustomerMinimalApi();
@@ -84,6 +90,8 @@ namespace InvoiceWithTS
             app.ConfigureUpdateItemMinimalApi();
 
             app.ConfigureMakeFinalMinimalApi();
+
+            app.ConfigureGetInventoryMinimalApi();
         }
 
     }

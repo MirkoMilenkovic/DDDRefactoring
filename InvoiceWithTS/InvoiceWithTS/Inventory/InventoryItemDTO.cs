@@ -1,6 +1,6 @@
 ﻿using InvoiceWithTS.Common;
 
-namespace InvoiceWithTS.MasterData.Inventory
+namespace InvoiceWithTS.Inventory
 {
     public class InventoryItemDTO : BaseDTO
     {

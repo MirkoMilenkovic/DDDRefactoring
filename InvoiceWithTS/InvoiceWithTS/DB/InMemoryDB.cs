@@ -1,7 +1,7 @@
-﻿using InvoiceWithTS.Invoice.DTO;
+﻿using InvoiceWithTS.Inventory;
+using InvoiceWithTS.Invoice.DTO;
 using InvoiceWithTS.MasterData.Articles;
 using InvoiceWithTS.MasterData.DBModel;
-using InvoiceWithTS.MasterData.Inventory;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace InvoiceWithTS.DB
