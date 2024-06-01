@@ -1,4 +1,5 @@
-﻿using InvoiceWithTS.Invoice.BusinessModel;
+﻿using InvoiceWithTS.Inventory;
+using InvoiceWithTS.Invoice.BusinessModel;
 using System.Transactions;
 
 namespace InvoiceWithTS.Invoice.UseCases.Finalize
@@ -9,12 +10,16 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
 
         private InvoiceRepository _invoiceRepo;
 
+        private InventoryItemRepository _inventoryItemRepo;
+
         public MakeFinalCommandHandler(
-            InvoiceCommonLogic commonLogic, 
-            InvoiceRepository invoiceRepo)
+            InvoiceCommonLogic commonLogic,
+            InvoiceRepository invoiceRepo,
+            InventoryItemRepository inventoryItemRepo)
         {
             _commonLogic = commonLogic;
             _invoiceRepo = invoiceRepo;
+            _inventoryItemRepo = inventoryItemRepo;
         }
 
         public InvoiceModel MakeFinal(MakeFinalCommand request)
@@ -36,6 +41,14 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
             // Save invoice
             _invoiceRepo.Save(
                 invoiceModel);
+
+            //reduce inventory
+            foreach (InvoiceItemModel item in invoiceModel.Items)
+            {
+                _inventoryItemRepo.ReduceQuantity(
+                    articleId: item.ArticleId,
+                    quantity: item.Quantity);
+            }
 
             // complete tran
             ts.Complete();
