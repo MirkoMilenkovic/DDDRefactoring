@@ -3,6 +3,7 @@ using InvoiceWithTS.Inventory;
 using InvoiceWithTS.Inventory.GetInventory;
 using InvoiceWithTS.Invoice;
 using InvoiceWithTS.Invoice.UseCases.AddItem;
+using InvoiceWithTS.Invoice.UseCases.CancelInvoice;
 using InvoiceWithTS.Invoice.UseCases.CreateInvoice;
 using InvoiceWithTS.Invoice.UseCases.Finalize;
 using InvoiceWithTS.Invoice.UseCases.GetAllInvoices;
@@ -72,7 +73,7 @@ namespace InvoiceWithTS
 
             builder.Services.AddSingleton<MakeFinalCommandHandler>();
 
-
+            builder.Services.AddSingleton<CancelInvoiceCommandHandler>();
         }
 
         private static void ConfigureMinimalApi(WebApplication app)
@@ -92,6 +93,8 @@ namespace InvoiceWithTS
             app.ConfigureMakeFinalMinimalApi();
 
             app.ConfigureGetInventoryMinimalApi();
+
+            app.ConfigureCancelInvoiceMinimalApi();
         }
 
     }
