@@ -46,12 +46,12 @@ namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
             // at this moment, itemModel is invalid, because tax is wrong
 
             // Calculate Item
-            // oops. If I forget this, Tax man comes!!!!
+            // oops. If I forget this, Taxman comes!!!!
             _commonLogic.CalculateMoney(
                 itemModel);
 
             // Calculate Invoice
-            // oops. If I forget this, Tax man comes!!!!
+            // oops. If I forget this, Taxman comes!!!!
             _commonLogic.CalculateMoney(
                 invoiceModel);
 

@@ -55,7 +55,7 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
             }
 
             // Do not forget!!!
-            // Tax man will come!!!
+            // Taxman will come!!!
             TaxMessageDTO taxMessageDTO = new TaxMessageDTO()
             {
                 CustomerId = invoiceModel.CustomerId,

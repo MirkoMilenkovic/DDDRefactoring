@@ -34,7 +34,7 @@ namespace InvoiceWithTS.Invoice
                     item.TaxRate = TAX_RATE_REDUCED;
                     break;
                 default:
-                    throw new Exception($"Tax man came up with unexpected tax group: {articleTaxGroup}");
+                    throw new Exception($"Taxman came up with unexpected tax group: {articleTaxGroup}");
             }
 
             item.UnitPriceWithoutTax = articleUnitPriceWithoutTax;
