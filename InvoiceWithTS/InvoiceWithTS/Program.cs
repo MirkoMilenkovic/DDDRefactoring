@@ -11,6 +11,7 @@ using InvoiceWithTS.Invoice.UseCases.UpdateItem;
 using InvoiceWithTS.MasterData.Articles;
 using InvoiceWithTS.MasterData.Customers;
 using InvoiceWithTS.MasterData.DBModel;
+using InvoiceWithTS.TaxAdministration;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceWithTS
@@ -83,6 +84,8 @@ namespace InvoiceWithTS
             builder.Services.AddSingleton<MakeFinalCommandHandler>();
 
             builder.Services.AddSingleton<CancelInvoiceCommandHandler>();
+
+            builder.Services.AddSingleton<TaxMessageRepository>();
         }
 
         private static void ConfigureMinimalApi(WebApplication app)
@@ -104,7 +107,8 @@ namespace InvoiceWithTS
             app.ConfigureGetInventoryMinimalApi();
 
             app.ConfigureCancelInvoiceMinimalApi();
-        }
 
+            app.ConfigureTaxMessageMinimalApi();
+        }
     }
 }

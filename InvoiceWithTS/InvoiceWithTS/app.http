@@ -60,3 +60,6 @@ Content-Type: application/json
 {
   "invoiceId": {{InvoiceId}}
 }
+
+###
+GET {{{{HostAddress}}}}/tax-message/all

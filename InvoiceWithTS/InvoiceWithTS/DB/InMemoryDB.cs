@@ -2,6 +2,7 @@
 using InvoiceWithTS.Invoice.DTO;
 using InvoiceWithTS.MasterData.Articles;
 using InvoiceWithTS.MasterData.DBModel;
+using InvoiceWithTS.TaxAdministration;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace InvoiceWithTS.DB
@@ -22,6 +23,8 @@ namespace InvoiceWithTS.DB
         public Dictionary<int, CustomerDTO> Customer { get; } = new();
 
         public Dictionary<int, InventoryItemDTO> InventoryItem { get; } = new();
+
+        public Dictionary<int, TaxMessageDTO> TaxMessage { get; } = new();
 
         public async Task Init()
         {

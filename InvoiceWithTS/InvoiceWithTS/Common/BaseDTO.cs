@@ -2,6 +2,6 @@
 {
     public abstract class BaseDTO
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
     }
 }

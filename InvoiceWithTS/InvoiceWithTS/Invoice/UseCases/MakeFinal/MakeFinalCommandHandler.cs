@@ -1,5 +1,6 @@
 ﻿using InvoiceWithTS.Inventory;
 using InvoiceWithTS.Invoice.BusinessModel;
+using InvoiceWithTS.TaxAdministration;
 using System.Transactions;
 
 namespace InvoiceWithTS.Invoice.UseCases.Finalize
@@ -10,12 +11,16 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
 
         private InventoryItemRepository _inventoryItemRepo;
 
+        private TaxMessageRepository _taxMessageRepository;
+
         public MakeFinalCommandHandler(
             InvoiceRepository invoiceRepo,
-            InventoryItemRepository inventoryItemRepo)
+            InventoryItemRepository inventoryItemRepo,
+            TaxMessageRepository taxMessageRepository)
         {
             _invoiceRepo = invoiceRepo;
             _inventoryItemRepo = inventoryItemRepo;
+            _taxMessageRepository = taxMessageRepository;
         }
 
         public InvoiceModel MakeFinal(MakeFinalCommand request)
@@ -48,6 +53,21 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
                     articleId: item.ArticleId,
                     quantity: item.Quantity);
             }
+
+            // Do not forget!!!
+            // Tax man will come!!!
+            TaxMessageDTO taxMessageDTO = new TaxMessageDTO()
+            {
+                CustomerId = invoiceModel.CustomerId,
+                InvoiceNumber = invoiceModel.InvoiceNumber,
+                PriceWithoutTax = invoiceModel.PriceWithoutTax,
+                PriceWithTax = invoiceModel.PriceWithTax,
+                TaxAtNormalRate = invoiceModel.TaxAtNormalRate,
+                TaxAtReducedRate = invoiceModel.TaxAtReducedRate,
+            };
+
+            _taxMessageRepository.EnqueueForSending(
+                taxMessageDTO);
 
             // complete tran
             ts.Complete();
