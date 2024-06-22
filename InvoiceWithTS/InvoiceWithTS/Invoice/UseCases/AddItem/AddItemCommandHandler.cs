@@ -23,7 +23,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
             _articleRepo = articleRepo;
         }
 
-        public InvoiceModel AddItem(
+        public (InvoiceModel Invoice, InvoiceItemModel AddedItem) AddItem(
             AddItemCommand request)
         {
             InvoiceModel? invoiceModel = _invoiceRepo.GetById(
@@ -81,7 +81,7 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
             // complete tran
             ts.Complete();
 
-            return invoiceModel;
+            return (invoiceModel, itemModel);
         }
     }
 }

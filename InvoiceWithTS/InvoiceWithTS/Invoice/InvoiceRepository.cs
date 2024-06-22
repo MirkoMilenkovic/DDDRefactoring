@@ -11,9 +11,14 @@ namespace InvoiceWithTS.Invoice
     {
         private InMemoryDB _db;
 
-        public InvoiceRepository(InMemoryDB db)
+        private ILogger<InvoiceRepository> _logger;
+
+        public InvoiceRepository(
+            InMemoryDB db, 
+            ILogger<InvoiceRepository> logger)
         {
             _db = db;
+            _logger = logger;
         }
 
         public InvoiceModel? GetById(int id)
@@ -43,10 +48,13 @@ namespace InvoiceWithTS.Invoice
         {
             using TransactionScope ts = new TransactionScope();
 
+            _logger.LogInformation($"invoice: {invoiceModel.Id} is {invoiceModel.EntityState}");
+
             switch (invoiceModel.EntityState)
             {
                 case EntityStates.Loaded:
                     // nothing to do
+                    
                     break;
                 case EntityStates.New:
                     invoiceModel.Id = _db.GetNextId(); // Note that invoiceModel is dirty now!!!
@@ -71,6 +79,8 @@ namespace InvoiceWithTS.Invoice
 
             foreach (InvoiceItemModel itemModel in invoiceModel.Items)
             {
+                _logger.LogInformation($"item: {itemModel.Id} is {itemModel.EntityState}");
+
                 switch (itemModel.EntityState)
                 {
                     case EntityStates.Loaded:
@@ -100,12 +110,19 @@ namespace InvoiceWithTS.Invoice
 
             ts.Complete();
 
+            // reset EntityState of everything in repositiry
             invoiceModel.EntityState = EntityStates.Loaded;
+            _logger.LogInformation($"Invoice: {invoiceModel.Id} is {invoiceModel.EntityState} on exit");
 
             foreach (InvoiceItemModel item in invoiceModel.Items)
             {
-                item.EntityState = EntityStates.Updated;
+                item.EntityState = EntityStates.Loaded;
+
+                _logger.LogInformation($"item: {item.Id} is {item.EntityState} on exit");
             }
+
+            
+
         }
 
         public IEnumerable<GetAllInvoicesResponseItem> GetAll()

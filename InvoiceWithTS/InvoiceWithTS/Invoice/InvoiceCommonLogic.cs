@@ -55,6 +55,9 @@ namespace InvoiceWithTS.Invoice
             item.Tax = item.TaxRate * item.PriceWithoutTax;
 
             item.PriceWithTax = item.PriceWithoutTax + item.Tax;
+
+            // do not forget this!!!
+            item.EntityState = EntityStates.Updated;
         }
 
         public void CalculateMoney(
@@ -82,6 +85,9 @@ namespace InvoiceWithTS.Invoice
             invoice.PriceWithTax = invoice.PriceWithoutTax
                 + invoice.TaxAtReducedRate
                 + invoice.TaxAtNormalRate;
+
+            // do not forget this!!!
+            invoice.EntityState = EntityStates.Updated;
         }
     }
 }

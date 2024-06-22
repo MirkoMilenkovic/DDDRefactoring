@@ -31,6 +31,9 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
             // apply change            
             invoiceModel.Status = DTO.InvoiceStatuses.Final;
 
+            // Do not forget this.
+            invoiceModel.EntityState = Common.EntityStates.Updated;
+
             // start save
             using TransactionScope ts = new TransactionScope();
 

@@ -4,5 +4,6 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
 {
     public record AddItemResponse(
         InvoiceDTO Invoice, 
-        IEnumerable<InvoiceItemDTO> ItemList);
+        IEnumerable<InvoiceItemDTO> ItemList,
+        InvoiceItemDTO AddedItem);
 }

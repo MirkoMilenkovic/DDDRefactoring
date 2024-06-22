@@ -4,12 +4,8 @@ using static InvoiceWithTS.Invoice.DTO.InvoiceDTO;
 
 namespace InvoiceWithTS.Invoice.BusinessModel
 {
-    public class InvoiceModel
+    public class InvoiceModel : BaseModel
     {
-        public required int Id { get; set; }
-
-        public required EntityStates EntityState { get; set; }
-
         public required string InvoiceNumber { get; set; }
 
         public required int CustomerId { get; set; }

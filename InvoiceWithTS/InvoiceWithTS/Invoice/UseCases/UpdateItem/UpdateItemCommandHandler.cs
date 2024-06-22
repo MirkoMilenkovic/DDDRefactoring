@@ -19,7 +19,7 @@ namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
             _invoiceRepo = invoiceRepo;
         }
 
-        public InvoiceModel UpdateItem(
+        public (InvoiceModel Invoice, InvoiceItemModel UpdatedItem) UpdateItem(
             UpdateItemCommand request)
         {
             InvoiceModel? invoiceModel = _invoiceRepo.GetById(
@@ -40,12 +40,21 @@ namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
 
             itemModel.Quantity = request.Quantity;
 
+            // Do not forget this!!!
+            itemModel.EntityState = EntityStates.Updated;
+
             // at this moment, itemModel is invalid, because tax is wrong
 
-            // Calculate
+            // Calculate Item
             // oops. If I forget this, Tax man comes!!!!
             _commonLogic.CalculateMoney(
                 itemModel);
+
+            // Calculate Invoice
+            // oops. If I forget this, Tax man comes!!!!
+            _commonLogic.CalculateMoney(
+                invoiceModel);
+
 
             // start save
             using TransactionScope ts = new TransactionScope();
@@ -57,7 +66,7 @@ namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
             // complete tran
             ts.Complete();
 
-            return invoiceModel;
+            return (invoiceModel, itemModel);
         }
     }
 }

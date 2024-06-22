@@ -21,20 +21,23 @@ namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
             [FromBody] UpdateItemCommand addItemRequest,
             UpdateItemCommandHandler commandHandler)
         {
-            InvoiceModel invoiceModel = commandHandler.UpdateItem(addItemRequest);
+            (InvoiceModel Invoice, InvoiceItemModel UpdatedItem) updateResult = commandHandler.UpdateItem(addItemRequest);
 
-            InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(invoiceModel);
+            InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(updateResult.Invoice);
 
             List<InvoiceItemDTO> itemDTOList = new();
-            foreach(var itemModel in invoiceModel.Items)
+            foreach(var itemModel in updateResult.Invoice.Items)
             {
                 InvoiceItemDTO itemDTO = InvoiceItemModel.ToDTO(itemModel);
                 itemDTOList.Add(itemDTO);
             }
+
+            InvoiceItemDTO updatedItemDTO = InvoiceItemModel.ToDTO(updateResult.UpdatedItem);
             
             UpdateItemResponse response = new UpdateItemResponse(
                 invoiceDTO,
-                itemDTOList);
+                itemDTOList,
+                updatedItemDTO);
 
             return TypedResults.Ok(response);
         }

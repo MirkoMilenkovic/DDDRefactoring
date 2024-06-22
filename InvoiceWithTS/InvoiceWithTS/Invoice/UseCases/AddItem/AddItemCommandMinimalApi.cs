@@ -20,20 +20,23 @@ namespace InvoiceWithTS.Invoice.UseCases.AddItem
             [FromBody] AddItemCommand addItemRequest,
             AddItemCommandHandler commandHandler)
         {
-            InvoiceModel invoiceModel = commandHandler.AddItem(addItemRequest);
+            (InvoiceModel Invoice, InvoiceItemModel AddedItem) addResult = commandHandler.AddItem(addItemRequest);
 
-            InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(invoiceModel);
+            InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(addResult.Invoice);
 
             List<InvoiceItemDTO> itemDTOList = new();
-            foreach(var itemModel in invoiceModel.Items)
+            foreach (InvoiceItemModel itemModel in addResult.Invoice.Items)
             {
                 InvoiceItemDTO itemDTO = InvoiceItemModel.ToDTO(itemModel);
                 itemDTOList.Add(itemDTO);
             }
+
+            InvoiceItemDTO addedItemDTO = InvoiceItemModel.ToDTO(addResult.AddedItem);
             
             AddItemResponse response = new AddItemResponse(
                 invoiceDTO,
-                itemDTOList);
+                itemDTOList,
+                addedItemDTO);
 
             return TypedResults.Ok(response);
         }

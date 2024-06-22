@@ -3,6 +3,7 @@
 namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
 {
     public record UpdateItemResponse(
-        InvoiceDTO Invoice, 
-        IEnumerable<InvoiceItemDTO> ItemList);
+        InvoiceDTO Invoice,
+        IEnumerable<InvoiceItemDTO> ItemList,
+        InvoiceItemDTO UpdatedItem);
 }

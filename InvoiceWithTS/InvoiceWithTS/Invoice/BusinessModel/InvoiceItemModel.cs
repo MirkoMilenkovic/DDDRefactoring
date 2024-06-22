@@ -3,12 +3,8 @@ using InvoiceWithTS.Invoice.DTO;
 
 namespace InvoiceWithTS.Invoice.BusinessModel
 {
-    public class InvoiceItemModel
+    public class InvoiceItemModel : BaseModel
     {
-        public required int Id { get; set; }
-
-        public required EntityStates EntityState { get; set; }
-
         public required InvoiceModel Invoice { get; set; }
 
         public required int ArticleId { get; set; }
