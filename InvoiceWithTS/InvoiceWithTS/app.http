@@ -62,4 +62,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{{{HostAddress}}}}/tax-message/all
+GET {{HostAddress}}/invoice/all
+
+###
+GET {{HostAddress}}/tax-message/all
