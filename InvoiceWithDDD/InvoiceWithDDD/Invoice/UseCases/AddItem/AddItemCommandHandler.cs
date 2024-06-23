@@ -44,7 +44,10 @@ namespace InvoiceWithDDD.Invoice.UseCases.AddItem
 
             InvoiceItemModel itemModel = new InvoiceItemModel()
             {
-                Id = 0, // We'll assign during Save 
+                // DDD
+                // Id = 0, // We'll assign during Save 
+                // This is not required anymore
+                // END DDD
                 EntityState = EntityStates.New,
                 Invoice = invoiceModel,
                 ArticleId = request.ArticleId,

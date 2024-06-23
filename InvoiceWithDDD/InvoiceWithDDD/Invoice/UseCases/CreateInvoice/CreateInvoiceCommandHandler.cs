@@ -24,7 +24,10 @@ namespace InvoiceWithDDD.Invoice.UseCases.CreateInvoice
             InvoiceModel invoiceModel = new InvoiceModel()
             {
                 EntityState = Common.EntityStates.New, // we are creating New
-                Id = 0, // DB will assign
+                // DDD
+                // Id = 0, // DB will assign
+                // This is not required anymore
+                // END DDD
                 CustomerId = command.CustomerId, // by user
                 InvoiceNumber = command.InvoiceNumber, // by user
                 InvoiceDate = DateTime.Today, // business rule

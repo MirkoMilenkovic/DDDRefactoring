@@ -3,10 +3,11 @@
     "InvoiceWithDDD": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "http://localhost:5000/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:54787;http://localhost:54788"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

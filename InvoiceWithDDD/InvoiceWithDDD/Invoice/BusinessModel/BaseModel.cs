@@ -4,7 +4,17 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 {
     public abstract class BaseModel
     {
-        public required int Id { get; set; }
+        /// <summary>
+        /// DDD
+        /// </summary>
+        public int Id { get; protected set; }
+
+        public void SetId(int id)
+        {
+            Id = id;
+        }
+        // END DDD
+
 
         private EntityStates _entityState = EntityStates.Loaded;
 

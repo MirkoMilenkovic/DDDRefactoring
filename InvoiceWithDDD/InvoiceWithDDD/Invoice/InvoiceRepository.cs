@@ -57,7 +57,13 @@ namespace InvoiceWithDDD.Invoice
                     
                     break;
                 case EntityStates.New:
-                    invoiceModel.Id = _db.GetNextId(); // Note that invoiceModel is dirty now!!!
+                    // DDD
+                    //invoiceModel.Id = _db.GetNextId(); // Note that invoiceModel is dirty now!!!
+                    
+                    invoiceModel.SetId(
+                        _db.GetNextId());
+
+                    // END DDD
                     InvoiceDTO invoiceDTO = InvoiceModel.ToDTO(
                         invoiceModel);
                     // INSERT
@@ -88,7 +94,12 @@ namespace InvoiceWithDDD.Invoice
 
                         break;
                     case EntityStates.New:
-                        itemModel.Id = _db.GetNextId();
+                        // DDD
+                        // itemModel.Id = _db.GetNextId();
+                        itemModel.SetId(
+                            _db.GetNextId());
+
+                        // END DDD
                         InvoiceItemDTO itemDTO = InvoiceItemModel.ToDTO(
                             itemModel);
                         // INSERT
