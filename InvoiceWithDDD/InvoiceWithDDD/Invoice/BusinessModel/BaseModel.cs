@@ -18,15 +18,16 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         private EntityStates _entityState = EntityStates.Loaded;
 
+
         // Example of business logic in Model,
         // Our model is not fully anemic
-        public required EntityStates EntityState
+        public EntityStates EntityState
         {
             get
             {
                 return _entityState;
             }
-            set
+            protected set
             {
                 // Business logic: If something is New, we want to keep it New, even if we are sending Update
                 // This is to force INSERT for New entity.
@@ -44,5 +45,14 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
                 _entityState = value;
             }
         }
+
+        protected BaseModel(
+            int id,
+            EntityStates entityState)
+        {
+            Id = id;
+            EntityState = entityState;
+        }
+
     }
 }

@@ -6,29 +6,68 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 {
     public class InvoiceModel : BaseModel
     {
-        public required string InvoiceNumber { get; set; }
+        public InvoiceModel(
+            int id,
+            EntityStates entityState,
+            string invoiceNumber,
+            int customerId,
+            DateTime invoiceDate,
+            InvoiceStatuses status,
+            decimal priceWithoutTax,
+            decimal taxAtNormalRate,
+            decimal taxAtReducedRate,
+            decimal priceWithTax)
+            : base(id, entityState)
+        {
+            InvoiceNumber = invoiceNumber;
+            CustomerId = customerId;
+            InvoiceDate = invoiceDate;
+            Status = status;
+            PriceWithoutTax = priceWithoutTax;
+            TaxAtNormalRate = taxAtNormalRate;
+            TaxAtReducedRate = taxAtReducedRate;
+            PriceWithTax = priceWithTax;
+        }
 
-        public required int CustomerId { get; set; }
+        public string InvoiceNumber { get; private set; }
 
-        public required DateTime InvoiceDate { get; set; }
+        public int CustomerId { get; private set; }
 
-        public required InvoiceStatuses Status { get; set; }
+        public DateTime InvoiceDate { get; private set; }
 
-        public required decimal PriceWithoutTax { get; set; } = 0M;
+        public InvoiceStatuses Status { get; private set; }
 
-        public required decimal TaxAtNormalRate { get; set; } = 0M;
+        public decimal PriceWithoutTax { get; private set; } = 0M;
 
-        public required decimal TaxAtReducedRate { get; set; } = 0M;
+        public decimal TaxAtNormalRate { get; private set; } = 0M;
 
-        public required decimal PriceWithTax { get; set; } = 0M;
+        public decimal TaxAtReducedRate { get; private set; } = 0M;
 
-        public List<InvoiceItemModel> Items { get; set; } = new List<InvoiceItemModel>();
+        public decimal PriceWithTax { get; private set; } = 0M;
+
+        public List<InvoiceItemModel> Items { get; private set; } = new List<InvoiceItemModel>();
 
         public static InvoiceModel FromDTO(
             InvoiceDTO invoiceDto,
             IEnumerable<InvoiceItemDTO> itemDtoList,
             EntityStates entityState)
         {
+            // DDD
+            InvoiceModel invoiceModel = new InvoiceModel(
+                id: invoiceDto.Id,
+                entityState: entityState,
+                customerId: invoiceDto.CustomerId,
+                invoiceDate: invoiceDto.InvoiceDate,
+                invoiceNumber: invoiceDto.InvoiceNumber,
+                priceWithoutTax: invoiceDto.PriceWithoutTax,
+                priceWithTax: invoiceDto.PriceWithTax,
+                status: invoiceDto.Status,
+                taxAtNormalRate: invoiceDto.TaxAtNormalRate,
+                taxAtReducedRate: invoiceDto.TaxAtReducedRate
+            );
+            // END DDD
+
+            /*
             InvoiceModel invoiceModel = new InvoiceModel()
             {
                 Id = invoiceDto.Id,
@@ -42,6 +81,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
                 TaxAtNormalRate = invoiceDto.TaxAtNormalRate,
                 TaxAtReducedRate = invoiceDto.TaxAtReducedRate,
             };
+            */
 
             foreach (var itemDto in itemDtoList)
             {

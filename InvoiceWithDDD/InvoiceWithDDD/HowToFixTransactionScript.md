@@ -6,11 +6,18 @@ There is logic to avoid overriding *New* with *Updated*,
 which is the beggining of DDD.
 
 **Resolution**: move EntityState.Set into Entity itself. 
-No property will have *public set*.
+This breaks the code immediatelly. 
+We can fix it by calling EntytyState.Set on every property.Set, but that sucks.
+So, let's make each property.Set private, and replace Setters with methods.
+This is a big change!!!
+*required* properties are unusable, 
+we have to make constructors.
 
-**Invoice** and **InvoiceItem** can be invalid.
-Logic for calculating tax is outside. 
-I have to remember to call it, every time I change something.
+**Tax calculation on Invoice and Item**
+When I change eg. InvoiceItem.Quantity, I have to remember to:
+- CalculateMoney on InvoiceItem
+- CalculateMoney on Invoice
+This is the only way to have valid Invoice.
 
 **InvoiceModel.Items** is public List, i.e. mutable.
 Anyone can add any Item, without valdiation and totals calculation.
