@@ -38,6 +38,13 @@ namespace InvoiceWithDDD.Invoice.UseCases.AddItem
                 throw new Exception($"Article: {request.ArticleId} not found");
             }
 
+            // DDD
+
+            InvoiceItemModel itemModel = invoiceModel.AddItem(
+                articleId: article.Id,
+                quantity: request.Quantity);
+
+            /*
             InvoiceItemModel itemModel = new InvoiceItemModel()
             {
                 // DDD
@@ -69,6 +76,8 @@ namespace InvoiceWithDDD.Invoice.UseCases.AddItem
             // oops. If I forget this, Taxman comes!!!!
             _commonLogic.CalculateMoney(
                 invoiceModel);
+            */
+            // END DDD
 
             // start save
             using TransactionScope ts = new TransactionScope();

@@ -96,35 +96,95 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             return invoiceModel;
         }
 
+        #region business logic
 
-        public void CalculateMoney(
-           InvoiceModel invoice)
+        public void ResetStateToLoaded()
+        {
+            EntityState = EntityStates.Loaded;
+
+            foreach (InvoiceItemModel item in Items)
+            {
+                item.ResetStateToLoaded();
+            }
+        }
+
+        public InvoiceItemModel AddItem(
+            int articleId,
+            int quantity)
+        {
+            InvoiceItemModel item = InvoiceItemModel.CreateNew(
+                invoice: this,
+                articleId: articleId,
+                quantity: quantity);
+
+            this.Items.Add(
+                item);
+
+            // Money has changed.
+            CalculateMoney();
+
+            // Return to user.
+            return item;
+        }
+
+        /// <summary>
+        /// - find item
+        /// - call item.UpdateQuantity (see what it does)
+        /// - CalculateMoney
+        /// Voila, we have valid invoice!!!
+        /// - return item, so UI has something to show.
+        /// </summary>
+        public InvoiceItemModel UpdateItem(
+            int itemId,
+            int quantity)
+        {
+            InvoiceItemModel? item = Items.FirstOrDefault(x => x.Id == itemId);
+
+            if (item == null)
+            {
+                throw new Exception($"ItemId: {itemId} not found");
+            }
+
+            // Update quantity, calculate money, and set EntityState to Updated.
+            item.Update(quantity);
+
+            // Money has changed on Invoice also.
+            CalculateMoney();
+
+            // No need to set EntityState, CalculateMoney has determined if it should be Updated.
+
+            return item;
+        }
+
+        #endregion
+
+        public void CalculateMoney()           
         {
             // reset
-            invoice.PriceWithoutTax = 0M;
-            invoice.PriceWithTax = 0M;
-            invoice.TaxAtNormalRate = 0M;
-            invoice.TaxAtReducedRate = 0M;
+            PriceWithoutTax = 0M;
+            PriceWithTax = 0M;
+            TaxAtNormalRate = 0M;
+            TaxAtReducedRate = 0M;
 
-            foreach (InvoiceItemModel item in invoice.Items)
+            foreach (InvoiceItemModel item in Items)
             {
-                invoice.PriceWithoutTax += item.PriceWithoutTax;
+                PriceWithoutTax += item.PriceWithoutTax;
                 if (item.TaxRate == TaxConstants.TAX_RATE_NORMAL)
                 {
-                    invoice.TaxAtNormalRate += item.Tax;
+                    TaxAtNormalRate += item.Tax;
                 }
                 else if (item.TaxRate == TaxConstants.TAX_RATE_REDUCED)
                 {
-                    invoice.TaxAtReducedRate += item.Tax;
+                    TaxAtReducedRate += item.Tax;
                 }
             }
 
-            invoice.PriceWithTax = invoice.PriceWithoutTax
-                + invoice.TaxAtReducedRate
-                + invoice.TaxAtNormalRate;
+            PriceWithTax = PriceWithoutTax
+                + TaxAtReducedRate
+                + TaxAtNormalRate;
 
             // do not forget this!!!
-            invoice.EntityState = EntityStates.Updated;
+            EntityState = EntityStates.Updated;
         }
 
         #region factory methods

@@ -26,6 +26,13 @@ namespace InvoiceWithDDD.Invoice.UseCases.UpdateItem
                 throw new Exception($"Invoice {request.InvoiceId} not found");
             }
 
+            InvoiceItemModel itemModel = invoiceModel.UpdateItem(
+                itemId: request.ItemId,
+                quantity: request.Quantity);
+
+            // DDD
+            /*
+
             InvoiceItemModel? itemModel = invoiceModel.Items
                 .FirstOrDefault(x => x.Id == request.ItemId);
 
@@ -51,6 +58,8 @@ namespace InvoiceWithDDD.Invoice.UseCases.UpdateItem
             _commonLogic.CalculateMoney(
                 invoiceModel);
 
+            */
+            // END DDD
 
             // start save
             using TransactionScope ts = new TransactionScope();

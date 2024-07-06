@@ -8,6 +8,9 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
     {
         // DDD
         // ugly constructor is necessary, since we can not use required.
+        /// <summary>
+        /// Constructor for loading from DB.
+        /// </summary>
         public InvoiceItemModel(
             int id,
             EntityStates entityState,
@@ -30,6 +33,31 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             PriceWithTax = priceWithTax;
             TaxRate = taxRate;
         }
+
+        /// <summary>
+        /// Constructor for new item (in business sense, when user adds it).
+        /// </summary>
+        /// <remarks>
+        /// These are properties without which Item can not exist, in business sense.
+        /// </remarks>
+        public InvoiceItemModel(
+            InvoiceModel invoice,
+            int articleId,
+            int quantity)
+            : base(
+                  id: 0, // Note new Item!!!
+                  entityState: EntityStates.New
+                  )
+        {
+            Invoice = invoice;
+            ArticleId = articleId;
+            Quantity = quantity;
+            UnitPriceWithoutTax = 0M;
+            PriceWithoutTax = 0M;
+            Tax = 0M;
+            PriceWithTax = 0M;
+            TaxRate = 0M;
+        }
         // END DDD
 
         public InvoiceModel Invoice { get; private set; }
@@ -47,6 +75,13 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         public decimal PriceWithTax { get; private set; }
 
         public decimal TaxRate { get; private set; }
+
+        #region BusinessLogic
+
+        public void ResetStateToLoaded()
+        {
+            EntityState = EntityStates.Loaded;
+        }
 
         // Note that I'm not sending Article, but its properties.
         public void CalculateMoney(
@@ -70,7 +105,9 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             CalculateMoney();
         }
 
-        public void CalculateMoney()
+        // note private.
+        // this method is called only from the inside, when change on something else causes moiney change.
+        private void CalculateMoney()
         {
             if (TaxRate == 0)
             {
@@ -86,6 +123,24 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             // do not forget this!!!
             EntityState = EntityStates.Updated;
         }
+
+        /// <summary>
+        /// - update quantity
+        /// - calculate tax
+        /// - set EntityState to Updated.
+        /// </summary>
+        internal void Update(
+            int quantity)
+        {
+            Quantity = quantity;
+
+            CalculateMoney();
+
+            // this is surplus, because logic of 
+            EntityState = EntityStates.Updated;
+        }
+
+        #endregion Business Logic
 
         #region factory methods
 
@@ -145,6 +200,27 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             };
 
             return itemDto;
+        }
+
+        /// <summary>
+        /// Returns New Item, with no Id. 
+        /// Only required properties are passed. 
+        /// Money is calculated.
+        /// This is valid item, ready to be saved.
+        /// </summary>
+        public static InvoiceItemModel CreateNew(
+            InvoiceModel invoice,
+            int articleId,
+            int quantity)
+        {
+            InvoiceItemModel invoiceItemModel = new InvoiceItemModel(
+                invoice: invoice,
+                articleId: articleId,
+                quantity: quantity);
+
+            invoiceItemModel.CalculateMoney();
+
+            return invoiceItemModel;
         }
 
         #endregion

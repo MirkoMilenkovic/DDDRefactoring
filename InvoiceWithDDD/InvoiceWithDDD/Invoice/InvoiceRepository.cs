@@ -122,6 +122,12 @@ namespace InvoiceWithDDD.Invoice
             ts.Complete();
 
             // reset EntityState of everything in repository
+
+            // DDD
+
+            //Invoice and Items.
+            invoiceModel.ResetStateToLoaded();
+            /*
             invoiceModel.EntityState = EntityStates.Loaded;
             _logger.LogInformation($"Invoice: {invoiceModel.Id} is {invoiceModel.EntityState} on exit");
 
@@ -131,8 +137,9 @@ namespace InvoiceWithDDD.Invoice
 
                 _logger.LogInformation($"item: {item.Id} is {item.EntityState} on exit");
             }
+            */
 
-            
+            // END DDD
 
         }
 
