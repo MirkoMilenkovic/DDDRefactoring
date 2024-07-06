@@ -7,18 +7,14 @@ namespace InvoiceWithDDD.Invoice.UseCases.AddItem
 {
     public class AddItemCommandHandler
     {
-        private InvoiceCommonLogic _commonLogic;
-
         private InvoiceRepository _invoiceRepo;
 
         private ArticleRepository _articleRepo;
 
         public AddItemCommandHandler(
-            InvoiceCommonLogic commonLogic,
             InvoiceRepository invoiceRepo,
             ArticleRepository articleRepo)
         {
-            _commonLogic = commonLogic;
             _invoiceRepo = invoiceRepo;
             _articleRepo = articleRepo;
         }

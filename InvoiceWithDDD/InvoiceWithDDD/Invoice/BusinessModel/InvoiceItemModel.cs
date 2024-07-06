@@ -1,5 +1,6 @@
 ﻿using InvoiceWithDDD.Common;
 using InvoiceWithDDD.Invoice.DTO;
+using InvoiceWithDDD.MasterData.Articles;
 
 namespace InvoiceWithDDD.Invoice.BusinessModel
 {
@@ -47,6 +48,28 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         public decimal TaxRate { get; private set; }
 
+        // Note that I'm not sending Article, but its properties.
+        public void CalculateMoney(
+            ArticleDTO.TaxGroup articleTaxGroup,
+            decimal articleUnitPriceWithoutTax)
+        {
+            switch (articleTaxGroup)
+            {
+                case ArticleDTO.TaxGroup.Normal:
+                    TaxRate = TaxConstants.TAX_RATE_NORMAL;
+                    break;
+                case ArticleDTO.TaxGroup.Reduced:
+                    TaxRate = TaxConstants.TAX_RATE_REDUCED;
+                    break;
+                default:
+                    throw new Exception($"Taxman came up with unexpected tax group: {articleTaxGroup}");
+            }
+
+            UnitPriceWithoutTax = articleUnitPriceWithoutTax;
+
+            CalculateMoney();
+        }
+
         public void CalculateMoney()
         {
             if (TaxRate == 0)
@@ -63,6 +86,8 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             // do not forget this!!!
             EntityState = EntityStates.Updated;
         }
+
+        #region factory methods
 
         public static InvoiceItemModel FromDTO(
             InvoiceItemDTO itemDTO,
@@ -121,5 +146,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
             return itemDto;
         }
+
+        #endregion
     }
 }

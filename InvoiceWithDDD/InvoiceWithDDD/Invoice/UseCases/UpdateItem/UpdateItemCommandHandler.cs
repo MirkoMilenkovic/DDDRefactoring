@@ -7,15 +7,11 @@ namespace InvoiceWithDDD.Invoice.UseCases.UpdateItem
 {
     public class UpdateItemCommandHandler
     {
-        private InvoiceCommonLogic _commonLogic;
-
         private InvoiceRepository _invoiceRepo;
 
         public UpdateItemCommandHandler(
-            InvoiceCommonLogic commonLogic,
             InvoiceRepository invoiceRepo)
         {
-            _commonLogic = commonLogic;
             _invoiceRepo = invoiceRepo;
         }
 

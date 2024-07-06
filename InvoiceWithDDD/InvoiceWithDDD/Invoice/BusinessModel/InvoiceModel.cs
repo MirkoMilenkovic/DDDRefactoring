@@ -96,6 +96,39 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             return invoiceModel;
         }
 
+
+        public void CalculateMoney(
+           InvoiceModel invoice)
+        {
+            // reset
+            invoice.PriceWithoutTax = 0M;
+            invoice.PriceWithTax = 0M;
+            invoice.TaxAtNormalRate = 0M;
+            invoice.TaxAtReducedRate = 0M;
+
+            foreach (InvoiceItemModel item in invoice.Items)
+            {
+                invoice.PriceWithoutTax += item.PriceWithoutTax;
+                if (item.TaxRate == TaxConstants.TAX_RATE_NORMAL)
+                {
+                    invoice.TaxAtNormalRate += item.Tax;
+                }
+                else if (item.TaxRate == TaxConstants.TAX_RATE_REDUCED)
+                {
+                    invoice.TaxAtReducedRate += item.Tax;
+                }
+            }
+
+            invoice.PriceWithTax = invoice.PriceWithoutTax
+                + invoice.TaxAtReducedRate
+                + invoice.TaxAtNormalRate;
+
+            // do not forget this!!!
+            invoice.EntityState = EntityStates.Updated;
+        }
+
+        #region factory methods
+
         public static InvoiceDTO ToDTO(
             InvoiceModel invoice)
         {
@@ -114,5 +147,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
             return invoiceDTO;
         }
+
+        #endregion
     }
 }
