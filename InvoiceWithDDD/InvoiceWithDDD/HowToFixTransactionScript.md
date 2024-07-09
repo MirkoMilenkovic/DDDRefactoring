@@ -17,7 +17,13 @@ we have to make constructors.
 When I change eg. InvoiceItem.Quantity, I have to remember to:
 - CalculateMoney on InvoiceItem
 - CalculateMoney on Invoice
+
 This is the only way to have valid Invoice.
+**Resolution**
+CalculateMoney methods are moved to InvoiceItem and Invoice iself.
+Any method that changes money (eg. AddItem, UpdateQuantity), will call CalculateMoney.
+So, CommandHandler does not know that money needs to be calculated.
+
 
 **InvoiceModel.Items** is public List, i.e. mutable.
 Anyone can add any Item, without valdiation and totals calculation.
