@@ -85,7 +85,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         }
 
         // Note that I'm not sending Article, but its properties.
-        public void CalculateMoney(
+        private void CalculateMoney(
             ArticleDTO.TaxGroup articleTaxGroup,
             decimal articleUnitPriceWithoutTax)
         {
@@ -211,15 +211,17 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         /// </summary>
         public static InvoiceItemModel CreateNew(
             InvoiceModel invoice,
-            int articleId,
+            ArticleDTO article,
             int quantity)
         {
             InvoiceItemModel invoiceItemModel = new InvoiceItemModel(
                 invoice: invoice,
-                articleId: articleId,
+                articleId: article.Id,
                 quantity: quantity);
 
-            invoiceItemModel.CalculateMoney();
+            invoiceItemModel.CalculateMoney(
+               articleTaxGroup: article.ArticleTaxGroup,
+               articleUnitPriceWithoutTax: article.UnitPriceWithoutTax);
 
             return invoiceItemModel;
         }

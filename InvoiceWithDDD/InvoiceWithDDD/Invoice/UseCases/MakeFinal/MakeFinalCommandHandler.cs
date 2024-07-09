@@ -33,11 +33,18 @@ namespace InvoiceWithDDD.Invoice.UseCases.Finalize
                 throw new Exception($"{request.InvoiceId} not found");
             }
 
-            // apply change            
+            // DDD
+
+            invoiceModel.MakeFinal();
+
+            // apply change        
+            /*
             invoiceModel.Status = DTO.InvoiceStatuses.Final;
 
             // Do not forget this.
             invoiceModel.EntityState = Common.EntityStates.Updated;
+            */
+            // END DDD
 
             // start save
             using TransactionScope ts = new TransactionScope();
@@ -54,6 +61,11 @@ namespace InvoiceWithDDD.Invoice.UseCases.Finalize
                     quantity: item.Quantity);
             }
 
+            // DDD
+            // The code below remains a problem,
+            // because I have to know details of Tax system and Inventory.
+            // We will try to solve it for next release.            
+            
             // Do not forget!!!
             // Taxman will come!!!
             TaxMessageDTO taxMessageDTO = new TaxMessageDTO()

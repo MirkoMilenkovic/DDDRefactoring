@@ -73,7 +73,11 @@ namespace InvoiceWithDDD
 
             builder.Services.AddSingleton<InventoryItemRepository>();
 
-            builder.Services.AddSingleton<InvoiceCommonLogic>();
+            // DDD
+            // No InvoiceCommonLogic,
+            // because it is moved to InvoiceModel itself. 
+            // builder.Services.AddSingleton<InvoiceCommonLogic>();
+            // END DDD
 
             builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
 

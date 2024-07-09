@@ -41,7 +41,7 @@ namespace InvoiceWithDDD.Invoice.UseCases.AddItem
             // DDD
 
             InvoiceItemModel itemModel = invoiceModel.AddItem(
-                articleId: article.Id,
+                article: article,
                 quantity: request.Quantity);
 
             /*

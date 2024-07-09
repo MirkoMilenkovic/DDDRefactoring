@@ -28,6 +28,11 @@ namespace InvoiceWithDDD.Invoice.UseCases.CancelInvoice
                 throw new Exception($"{request.InvoiceId} not found");
             }
 
+            // DDD
+
+            invoiceModel.Cancel();
+
+            /*
             if(invoiceModel.Status != DTO.InvoiceStatuses.Final)
             {
                 throw new InvalidOperationException($"Invoice must be Final in order to become Canceled");
@@ -35,6 +40,12 @@ namespace InvoiceWithDDD.Invoice.UseCases.CancelInvoice
 
             // apply change            
             invoiceModel.Status = DTO.InvoiceStatuses.Canceled;
+            */
+            // I've just realized that we have forgot to update EntityState!!!
+            // test would have caught it, but I was to lazy to write a test.
+
+            // END DDD
+
 
             // start save
             using TransactionScope ts = new TransactionScope();

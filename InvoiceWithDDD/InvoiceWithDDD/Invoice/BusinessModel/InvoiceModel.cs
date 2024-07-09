@@ -1,5 +1,6 @@
 ﻿using InvoiceWithDDD.Common;
 using InvoiceWithDDD.Invoice.DTO;
+using InvoiceWithDDD.MasterData.Articles;
 using static InvoiceWithDDD.Invoice.DTO.InvoiceDTO;
 
 namespace InvoiceWithDDD.Invoice.BusinessModel
@@ -82,12 +83,12 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         }
 
         public InvoiceItemModel AddItem(
-            int articleId,
+            ArticleDTO article,
             int quantity)
         {
             InvoiceItemModel item = InvoiceItemModel.CreateNew(
                 invoice: this,
-                articleId: articleId,
+                article: article,
                 quantity: quantity);
 
             this.Items.Add(
@@ -127,6 +128,29 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             // No need to set EntityState, CalculateMoney has determined if it should be Updated.
 
             return item;
+        }
+
+        public void MakeFinal()
+        {
+            // apply change            
+            Status = InvoiceStatuses.Final;
+
+            // Do not forget this.
+            EntityState = EntityStates.Updated;
+        }
+
+
+        public void Cancel()
+        {
+            if (Status != InvoiceStatuses.Final)
+            {
+                throw new InvalidOperationException($"Invoice must be Final in order to become Canceled");
+            }
+
+            // apply change            
+            Status = InvoiceStatuses.Canceled;
+
+            EntityState = EntityStates.Updated;
         }
 
         #endregion
