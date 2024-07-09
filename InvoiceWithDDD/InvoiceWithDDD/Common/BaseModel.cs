@@ -1,6 +1,4 @@
-﻿using InvoiceWithDDD.Common;
-
-namespace InvoiceWithDDD.Invoice.BusinessModel
+﻿namespace InvoiceWithDDD.Common
 {
     public abstract class BaseModel
     {

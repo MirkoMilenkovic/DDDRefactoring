@@ -79,7 +79,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         #region BusinessLogic
 
-        public void ResetStateToLoaded()
+        internal void ResetStateToLoaded()
         {
             EntityState = EntityStates.Loaded;
         }
@@ -145,7 +145,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         #region factory methods
 
-        public static InvoiceItemModel FromDTO(
+        internal static InvoiceItemModel FromDTO(
             InvoiceItemDTO itemDTO,
             InvoiceModel invoiceModel,
             EntityStates entityState)
@@ -209,7 +209,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         /// Money is calculated.
         /// This is valid item, ready to be saved.
         /// </summary>
-        public static InvoiceItemModel CreateNew(
+        internal static InvoiceItemModel CreateNew(
             InvoiceModel invoice,
             ArticleDTO article,
             int quantity)

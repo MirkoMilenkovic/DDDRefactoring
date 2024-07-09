@@ -139,7 +139,6 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             EntityState = EntityStates.Updated;
         }
 
-
         public void Cancel()
         {
             if (Status != InvoiceStatuses.Final)
@@ -155,7 +154,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         #endregion
 
-        public void CalculateMoney()
+        private void CalculateMoney()
         {
             // reset
             PriceWithoutTax = 0M;
