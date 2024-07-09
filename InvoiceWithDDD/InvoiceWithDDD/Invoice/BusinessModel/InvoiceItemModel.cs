@@ -9,9 +9,9 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         // DDD
         // ugly constructor is necessary, since we can not use required.
         /// <summary>
-        /// Constructor for loading from DB.
+        /// Constructor for loading from DB (used by FromDTO factory method).
         /// </summary>
-        public InvoiceItemModel(
+        private InvoiceItemModel(
             int id,
             EntityStates entityState,
             InvoiceModel invoice,
@@ -36,11 +36,12 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         /// <summary>
         /// Constructor for new item (in business sense, when user adds it).
+        /// Note that it is private, since it is used only by 
         /// </summary>
         /// <remarks>
         /// These are properties without which Item can not exist, in business sense.
         /// </remarks>
-        public InvoiceItemModel(
+        private InvoiceItemModel(
             InvoiceModel invoice,
             int articleId,
             int quantity)

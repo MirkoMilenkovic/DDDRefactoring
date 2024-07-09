@@ -21,6 +21,14 @@ namespace InvoiceWithDDD.Invoice.UseCases.CreateInvoice
         {
             // Business logic for new invoice follows...
 
+            // DDD
+
+            InvoiceModel invoiceModel = InvoiceModel.CreateNew(
+                invoiceNumber: command.InvoiceNumber,
+                customerId: command.CustomerId);
+
+            // Note that business rules below have been moved to factory method or constructor.
+            /*
             InvoiceModel invoiceModel = new InvoiceModel()
             {
                 EntityState = Common.EntityStates.New, // we are creating New
@@ -37,6 +45,8 @@ namespace InvoiceWithDDD.Invoice.UseCases.CreateInvoice
                 TaxAtNormalRate = 0, // business rule
                 TaxAtReducedRate = 0, // business rule
             };
+            */
+            // END DDD
 
             _invoiceRepo.Save(
                 invoiceModel);

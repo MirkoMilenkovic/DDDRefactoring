@@ -6,7 +6,12 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 {
     public class InvoiceModel : BaseModel
     {
-        public InvoiceModel(
+        // DDD
+        // ugly constructor is necessary, since we can not use required.
+        /// <summary>
+        /// Constructor for loading from DB (used by factory method).
+        /// </summary>
+        private InvoiceModel(
             int id,
             EntityStates entityState,
             string invoiceNumber,
@@ -29,6 +34,23 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
             PriceWithTax = priceWithTax;
         }
 
+        private InvoiceModel(
+            string invoiceNumber,
+            int customerId)
+            : base(
+                id: 0, // Note new Item!!!
+                entityState: EntityStates.New)
+        {
+            CustomerId = customerId; // by user
+            InvoiceNumber = invoiceNumber; // by user
+            InvoiceDate = DateTime.Today; // business rule
+            Status = InvoiceStatuses.Draft; // business rule
+            PriceWithoutTax = 0; // business rule
+            PriceWithTax = 0; // business rule
+            TaxAtNormalRate = 0; // business rule
+            TaxAtReducedRate = 0; // business rule
+        }
+
         public string InvoiceNumber { get; private set; }
 
         public int CustomerId { get; private set; }
@@ -46,55 +68,6 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         public decimal PriceWithTax { get; private set; } = 0M;
 
         public List<InvoiceItemModel> Items { get; private set; } = new List<InvoiceItemModel>();
-
-        public static InvoiceModel FromDTO(
-            InvoiceDTO invoiceDto,
-            IEnumerable<InvoiceItemDTO> itemDtoList,
-            EntityStates entityState)
-        {
-            // DDD
-            InvoiceModel invoiceModel = new InvoiceModel(
-                id: invoiceDto.Id,
-                entityState: entityState,
-                customerId: invoiceDto.CustomerId,
-                invoiceDate: invoiceDto.InvoiceDate,
-                invoiceNumber: invoiceDto.InvoiceNumber,
-                priceWithoutTax: invoiceDto.PriceWithoutTax,
-                priceWithTax: invoiceDto.PriceWithTax,
-                status: invoiceDto.Status,
-                taxAtNormalRate: invoiceDto.TaxAtNormalRate,
-                taxAtReducedRate: invoiceDto.TaxAtReducedRate
-            );
-            // END DDD
-
-            /*
-            InvoiceModel invoiceModel = new InvoiceModel()
-            {
-                Id = invoiceDto.Id,
-                EntityState = entityState,
-                CustomerId = invoiceDto.CustomerId,
-                InvoiceDate = invoiceDto.InvoiceDate,
-                InvoiceNumber = invoiceDto.InvoiceNumber,
-                PriceWithoutTax = invoiceDto.PriceWithoutTax,
-                PriceWithTax = invoiceDto.PriceWithTax,
-                Status = invoiceDto.Status,
-                TaxAtNormalRate = invoiceDto.TaxAtNormalRate,
-                TaxAtReducedRate = invoiceDto.TaxAtReducedRate,
-            };
-            */
-
-            foreach (var itemDto in itemDtoList)
-            {
-                InvoiceItemModel itemModel = InvoiceItemModel.FromDTO(
-                    itemDTO: itemDto,
-                    invoiceModel: invoiceModel,
-                    entityState: entityState);
-
-                invoiceModel.Items.Add(itemModel);
-            }
-
-            return invoiceModel;
-        }
 
         #region business logic
 
@@ -158,7 +131,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         #endregion
 
-        public void CalculateMoney()           
+        public void CalculateMoney()
         {
             // reset
             PriceWithoutTax = 0M;
@@ -188,6 +161,68 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
         }
 
         #region factory methods
+
+        public static InvoiceModel CreateNew(
+            string invoiceNumber,
+            int customerId)
+        {
+            // business rules are inside constructor.
+            InvoiceModel invoice = new InvoiceModel(
+                invoiceNumber: invoiceNumber,
+                customerId: customerId);
+
+            return invoice;
+        }
+
+
+        public static InvoiceModel FromDTO(
+            InvoiceDTO invoiceDto,
+            IEnumerable<InvoiceItemDTO> itemDtoList,
+            EntityStates entityState)
+        {
+            // DDD
+            InvoiceModel invoiceModel = new InvoiceModel(
+                id: invoiceDto.Id,
+                entityState: entityState,
+                customerId: invoiceDto.CustomerId,
+                invoiceDate: invoiceDto.InvoiceDate,
+                invoiceNumber: invoiceDto.InvoiceNumber,
+                priceWithoutTax: invoiceDto.PriceWithoutTax,
+                priceWithTax: invoiceDto.PriceWithTax,
+                status: invoiceDto.Status,
+                taxAtNormalRate: invoiceDto.TaxAtNormalRate,
+                taxAtReducedRate: invoiceDto.TaxAtReducedRate
+            );
+            // END DDD
+
+            /*
+            InvoiceModel invoiceModel = new InvoiceModel()
+            {
+                Id = invoiceDto.Id,
+                EntityState = entityState,
+                CustomerId = invoiceDto.CustomerId,
+                InvoiceDate = invoiceDto.InvoiceDate,
+                InvoiceNumber = invoiceDto.InvoiceNumber,
+                PriceWithoutTax = invoiceDto.PriceWithoutTax,
+                PriceWithTax = invoiceDto.PriceWithTax,
+                Status = invoiceDto.Status,
+                TaxAtNormalRate = invoiceDto.TaxAtNormalRate,
+                TaxAtReducedRate = invoiceDto.TaxAtReducedRate,
+            };
+            */
+
+            foreach (var itemDto in itemDtoList)
+            {
+                InvoiceItemModel itemModel = InvoiceItemModel.FromDTO(
+                    itemDTO: itemDto,
+                    invoiceModel: invoiceModel,
+                    entityState: entityState);
+
+                invoiceModel.Items.Add(itemModel);
+            }
+
+            return invoiceModel;
+        }
 
         public static InvoiceDTO ToDTO(
             InvoiceModel invoice)
