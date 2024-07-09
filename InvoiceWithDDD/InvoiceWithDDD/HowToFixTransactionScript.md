@@ -27,12 +27,16 @@ So, CommandHandler does not know that money needs to be calculated.
 
 **InvoiceModel.Items** is public List, i.e. mutable.
 Anyone can add any Item, without valdiation and totals calculation.
+**Resolution**
+InvoiceModel has List<InvoiceItemModel> ItemsPrivate{get;}.
+IEnumerable<InvoiceItemModel> Items{get;} is read-only wrapper.
 
 **MakeFinal** use case requires knowledge of:
 - effects of Invoice creation process
 - external systems, to implement those effects.
 I'm an expert in invoicing, not Tax Administration's services.
-
+**Resolution**
+Remains unresolved, for now.
 
 
 

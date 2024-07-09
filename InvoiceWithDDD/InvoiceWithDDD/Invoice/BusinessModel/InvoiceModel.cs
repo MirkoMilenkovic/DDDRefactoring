@@ -68,8 +68,19 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
 
         public decimal PriceWithTax { get; private set; } = 0M;
 
-        public List<InvoiceItemModel> Items { get; private set; } = new List<InvoiceItemModel>();
+        // DDD
+        // Consider IReadOnlyList, because of Count property.
+        public IEnumerable<InvoiceItemModel> Items
+        {
+            get
+            {
+                return ItemsPrivate;
+            }
+        }
 
+        private List<InvoiceItemModel> ItemsPrivate { get; } = new List<InvoiceItemModel>();
+
+        // END DDD
         #region business logic
 
         public void ResetStateToLoaded()
@@ -91,7 +102,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
                 article: article,
                 quantity: quantity);
 
-            this.Items.Add(
+            this.ItemsPrivate.Add(
                 item);
 
             // Money has changed.
@@ -241,7 +252,7 @@ namespace InvoiceWithDDD.Invoice.BusinessModel
                     invoiceModel: invoiceModel,
                     entityState: entityState);
 
-                invoiceModel.Items.Add(itemModel);
+                invoiceModel.ItemsPrivate.Add(itemModel);
             }
 
             return invoiceModel;
