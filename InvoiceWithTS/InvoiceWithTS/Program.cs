@@ -10,9 +10,10 @@ using InvoiceWithTS.Invoice.UseCases.GetAllInvoices;
 using InvoiceWithTS.Invoice.UseCases.UpdateItem;
 using InvoiceWithTS.MasterData.Articles;
 using InvoiceWithTS.MasterData.Customers;
-using InvoiceWithTS.MasterData.DBModel;
 using InvoiceWithTS.TaxAdministration;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace InvoiceWithTS
 {
@@ -29,15 +30,18 @@ namespace InvoiceWithTS
             //builder.Logging.ClearProviders();
             
             builder.Logging.AddConsole();
-            builder.Logging.AddDebug();
-
-            
+            builder.Logging.AddDebug();            
 
             builder.Services.AddControllers();
+            builder.Services.Configure<JsonOptions>(options =>
+            {
+                options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
 
             ConfigureDI(builder);
 
@@ -86,6 +90,8 @@ namespace InvoiceWithTS
             builder.Services.AddSingleton<CancelInvoiceCommandHandler>();
 
             builder.Services.AddSingleton<TaxMessageRepository>();
+
+            builder.Services.AddSingleton<TaxMessageCommonLogic>();
         }
 
         private static void ConfigureMinimalApi(WebApplication app)

@@ -1,21 +1,30 @@
 ﻿using InvoiceWithDDD.Inventory;
 using InvoiceWithDDD.Invoice.BusinessModel;
+using InvoiceWithDDD.TaxAdministration;
 using System.Transactions;
 
 namespace InvoiceWithDDD.Invoice.UseCases.CancelInvoice
 {
     public class CancelInvoiceCommandHandler
     {
-        private InvoiceRepository _invoiceRepo;
+        private readonly InvoiceRepository _invoiceRepo;
 
-        private InventoryItemRepository _inventoryItemRepo;
+        private readonly InventoryItemRepository _inventoryItemRepo;
+
+        private readonly TaxMessageCommonLogic _taxMessageCommonLogic;
+
+        private readonly TaxMessageRepository _taxMessageRepository;
 
         public CancelInvoiceCommandHandler(
-            InvoiceRepository invoiceRepo, 
-            InventoryItemRepository inventoryItemRepo)
+            InvoiceRepository invoiceRepo,
+            InventoryItemRepository inventoryItemRepo,
+            TaxMessageCommonLogic taxMessageCommonLogic,
+            TaxMessageRepository taxMessageRepository)
         {
             _invoiceRepo = invoiceRepo;
             _inventoryItemRepo = inventoryItemRepo;
+            _taxMessageCommonLogic = taxMessageCommonLogic;
+            _taxMessageRepository = taxMessageRepository;
         }
 
         public InvoiceModel Cancel(CancelInvoiceCommand request)
@@ -63,6 +72,26 @@ namespace InvoiceWithDDD.Invoice.UseCases.CancelInvoice
                     articleId: item.ArticleId,
                     quantity: item.Quantity);
             }
+
+            // send message to Taxman
+            // oops. I've really forgoten this!!!
+
+            TaxMessageInvoiceStatuses taxMessageInvoiceStatus = _taxMessageCommonLogic.MapInvoiceStatus(
+               invoiceStatus: invoiceModel.Status);
+
+            TaxMessageDTO taxMessageDTO = new TaxMessageDTO()
+            {
+                CustomerId = invoiceModel.CustomerId,
+                InvoiceNumber = invoiceModel.InvoiceNumber,
+                PriceWithoutTax = invoiceModel.PriceWithoutTax,
+                PriceWithTax = invoiceModel.PriceWithTax,
+                TaxAtNormalRate = invoiceModel.TaxAtNormalRate,
+                TaxAtReducedRate = invoiceModel.TaxAtReducedRate,
+                Status = taxMessageInvoiceStatus,
+            };
+
+            _taxMessageRepository.EnqueueForSending(
+                taxMessageDTO);
 
             // complete tran
             ts.Complete();

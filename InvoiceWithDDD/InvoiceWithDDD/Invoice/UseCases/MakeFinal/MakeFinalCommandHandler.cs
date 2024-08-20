@@ -7,20 +7,24 @@ namespace InvoiceWithDDD.Invoice.UseCases.Finalize
 {
     public class MakeFinalCommandHandler
     {
-        private InvoiceRepository _invoiceRepo;
+        private readonly InvoiceRepository _invoiceRepo;
 
-        private InventoryItemRepository _inventoryItemRepo;
+        private readonly InventoryItemRepository _inventoryItemRepo;
 
-        private TaxMessageRepository _taxMessageRepository;
+        private readonly TaxMessageRepository _taxMessageRepository;
+
+        private readonly TaxMessageCommonLogic _taxMessageCommonLogic;
 
         public MakeFinalCommandHandler(
             InvoiceRepository invoiceRepo,
             InventoryItemRepository inventoryItemRepo,
-            TaxMessageRepository taxMessageRepository)
+            TaxMessageRepository taxMessageRepository,
+            TaxMessageCommonLogic taxMessageCommonLogic)
         {
             _invoiceRepo = invoiceRepo;
             _inventoryItemRepo = inventoryItemRepo;
             _taxMessageRepository = taxMessageRepository;
+            _taxMessageCommonLogic = taxMessageCommonLogic;
         }
 
         public InvoiceModel MakeFinal(MakeFinalCommand request)
@@ -65,9 +69,12 @@ namespace InvoiceWithDDD.Invoice.UseCases.Finalize
             // The code below remains a problem,
             // because I have to know details of Tax system and Inventory.
             // We will try to solve it for next release.            
-            
+
             // Do not forget!!!
             // Taxman will come!!!
+
+            TaxMessageInvoiceStatuses taxMessageInvoiceStatus = _taxMessageCommonLogic.MapInvoiceStatus(
+                invoiceStatus: invoiceModel.Status);
             TaxMessageDTO taxMessageDTO = new TaxMessageDTO()
             {
                 CustomerId = invoiceModel.CustomerId,
@@ -76,6 +83,7 @@ namespace InvoiceWithDDD.Invoice.UseCases.Finalize
                 PriceWithTax = invoiceModel.PriceWithTax,
                 TaxAtNormalRate = invoiceModel.TaxAtNormalRate,
                 TaxAtReducedRate = invoiceModel.TaxAtReducedRate,
+                Status = taxMessageInvoiceStatus
             };
 
             _taxMessageRepository.EnqueueForSending(

@@ -15,5 +15,7 @@ namespace InvoiceWithDDD.TaxAdministration
         public required decimal TaxAtReducedRate { get; init; } = 0M;
 
         public required decimal PriceWithTax { get; init; } = 0M;
+
+        public required TaxMessageInvoiceStatuses Status { get; init; }
     }
 }

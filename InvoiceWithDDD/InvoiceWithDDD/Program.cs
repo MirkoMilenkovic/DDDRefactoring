@@ -10,9 +10,10 @@ using InvoiceWithDDD.Invoice.UseCases.GetAllInvoices;
 using InvoiceWithDDD.Invoice.UseCases.UpdateItem;
 using InvoiceWithDDD.MasterData.Articles;
 using InvoiceWithDDD.MasterData.Customers;
-using InvoiceWithDDD.MasterData.DBModel;
 using InvoiceWithDDD.TaxAdministration;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace InvoiceWithDDD
 {
@@ -34,6 +35,12 @@ namespace InvoiceWithDDD
             
 
             builder.Services.AddControllers();
+            builder.Services.Configure<JsonOptions>(options =>
+            {
+                options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -90,6 +97,8 @@ namespace InvoiceWithDDD
             builder.Services.AddSingleton<CancelInvoiceCommandHandler>();
 
             builder.Services.AddSingleton<TaxMessageRepository>();
+
+            builder.Services.AddSingleton<TaxMessageCommonLogic>();
         }
 
         private static void ConfigureMinimalApi(WebApplication app)

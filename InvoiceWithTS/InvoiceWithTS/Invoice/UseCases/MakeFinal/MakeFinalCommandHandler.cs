@@ -13,14 +13,18 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
 
         private TaxMessageRepository _taxMessageRepository;
 
+        private TaxMessageCommonLogic _taxMessageCommonLogic;
+
         public MakeFinalCommandHandler(
             InvoiceRepository invoiceRepo,
             InventoryItemRepository inventoryItemRepo,
-            TaxMessageRepository taxMessageRepository)
+            TaxMessageRepository taxMessageRepository,
+            TaxMessageCommonLogic taxMessageCommonLogic)
         {
             _invoiceRepo = invoiceRepo;
             _inventoryItemRepo = inventoryItemRepo;
             _taxMessageRepository = taxMessageRepository;
+            _taxMessageCommonLogic = taxMessageCommonLogic;
         }
 
         public InvoiceModel MakeFinal(MakeFinalCommand request)
@@ -56,6 +60,9 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
 
             // Do not forget!!!
             // Taxman will come!!!
+            TaxMessageInvoiceStatuses taxMessageInvoiceStatus = _taxMessageCommonLogic.MapInvoiceStatus(
+                invoiceStatus: invoiceModel.Status);
+
             TaxMessageDTO taxMessageDTO = new TaxMessageDTO()
             {
                 CustomerId = invoiceModel.CustomerId,
@@ -64,6 +71,7 @@ namespace InvoiceWithTS.Invoice.UseCases.Finalize
                 PriceWithTax = invoiceModel.PriceWithTax,
                 TaxAtNormalRate = invoiceModel.TaxAtNormalRate,
                 TaxAtReducedRate = invoiceModel.TaxAtReducedRate,
+                Status = taxMessageInvoiceStatus,
             };
 
             _taxMessageRepository.EnqueueForSending(
