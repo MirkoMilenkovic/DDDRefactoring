@@ -57,24 +57,25 @@ namespace InvoiceWithDDD.Invoice.UseCases.Finalize
             _invoiceRepo.Save(
                 invoiceModel);
 
+            // DDD
+            // The code below remains a problem,
+            // because I have to know details of Tax system and Inventory.
+            // We will try to solve it for next release.    
+
             //reduce inventory
             foreach (InvoiceItemModel item in invoiceModel.Items)
             {
                 _inventoryItemRepo.ReduceQuantity(
                     articleId: item.ArticleId,
                     quantity: item.Quantity);
-            }
-
-            // DDD
-            // The code below remains a problem,
-            // because I have to know details of Tax system and Inventory.
-            // We will try to solve it for next release.            
+            }        
 
             // Do not forget!!!
             // Taxman will come!!!
 
             TaxMessageInvoiceStatuses taxMessageInvoiceStatus = _taxMessageCommonLogic.MapInvoiceStatus(
                 invoiceStatus: invoiceModel.Status);
+
             TaxMessageDTO taxMessageDTO = new TaxMessageDTO()
             {
                 CustomerId = invoiceModel.CustomerId,
