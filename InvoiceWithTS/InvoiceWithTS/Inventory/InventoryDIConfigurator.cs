@@ -1,5 +1,4 @@
-﻿using InvoiceWithTS.TaxAdministration;
-
+﻿
 namespace InvoiceWithTS.Inventory
 {
     public static class InventoryDIConfigurator
