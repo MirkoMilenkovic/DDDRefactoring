@@ -11,25 +11,31 @@ namespace InvoiceWithDE.Invoice.UseCases.CancelInvoice
     {
         private readonly InvoiceRepository _invoiceRepo;
 
+        // DE
+        // I do not need these anymore, they are in event handlers.
+        /*
         private readonly InventoryItemRepository _inventoryItemRepo;
 
         private readonly TaxMessageCommonLogic _taxMessageCommonLogic;
 
         private readonly TaxMessageRepository _taxMessageRepository;
+        */
 
         private readonly EventBus _eventBus;
 
+        // END DE
+
         public CancelInvoiceCommandHandler(
             InvoiceRepository invoiceRepo,
-            InventoryItemRepository inventoryItemRepo,
-            TaxMessageCommonLogic taxMessageCommonLogic,
-            TaxMessageRepository taxMessageRepository,
+            //InventoryItemRepository inventoryItemRepo,
+            //TaxMessageCommonLogic taxMessageCommonLogic,
+            //TaxMessageRepository taxMessageRepository,
             EventBus eventBus)
         {
             _invoiceRepo = invoiceRepo;
-            _inventoryItemRepo = inventoryItemRepo;
-            _taxMessageCommonLogic = taxMessageCommonLogic;
-            _taxMessageRepository = taxMessageRepository;
+            //_inventoryItemRepo = inventoryItemRepo;
+            //_taxMessageCommonLogic = taxMessageCommonLogic;
+            //_taxMessageRepository = taxMessageRepository;
             _eventBus = eventBus;
         }
 
