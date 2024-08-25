@@ -57,7 +57,7 @@ namespace InvoiceWithTS.Invoice.UseCases.UpdateItem
 
 
             // start save
-            using TransactionScope ts = new TransactionScope();
+            using TransactionScope ts = new TransactionScope(TransactionScopeOption.Required);
 
             // Save invoice
             _invoiceRepo.Save(

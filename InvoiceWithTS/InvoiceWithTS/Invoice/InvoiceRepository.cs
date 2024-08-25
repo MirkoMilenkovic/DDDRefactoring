@@ -46,7 +46,7 @@ namespace InvoiceWithTS.Invoice
 
         public void Save(InvoiceModel invoiceModel)
         {
-            using TransactionScope ts = new TransactionScope();
+            using TransactionScope ts = new TransactionScope(TransactionScopeOption.Required);
 
             _logger.LogInformation($"invoice: {invoiceModel.Id} is {invoiceModel.EntityState}");
 

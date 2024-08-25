@@ -46,7 +46,7 @@ namespace InvoiceWithTS.Invoice.UseCases.CancelInvoice
             invoiceModel.Status = DTO.InvoiceStatuses.Canceled;
 
             // start save
-            using TransactionScope ts = new TransactionScope();
+            using TransactionScope ts = new TransactionScope(TransactionScopeOption.Required);
 
             // Save invoice
             _invoiceRepo.Save(
