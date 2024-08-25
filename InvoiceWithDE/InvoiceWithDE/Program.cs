@@ -1,6 +1,7 @@
 ﻿using InvoiceWithDE.DB;
 using InvoiceWithDE.EventIInfrastructure;
 using InvoiceWithDE.Inventory;
+using InvoiceWithDE.Inventory.EventHandlers;
 using InvoiceWithDE.Inventory.GetInventory;
 using InvoiceWithDE.Invoice;
 using InvoiceWithDE.Invoice.UseCases.AddItem;
@@ -121,6 +122,10 @@ namespace InvoiceWithDE
         {
             EventBus eventBus = serviceProvider.GetRequiredService<EventBus>();
             TaxAdministrationEventSubscriptionManager.Subscribe(
+                eventBus,
+                serviceProvider);
+
+            InventoryEventSubscriptionManager.Subscribe(
                 eventBus,
                 serviceProvider);
         }
