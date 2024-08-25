@@ -12,6 +12,7 @@ using InvoiceWithDE.Invoice.UseCases.UpdateItem;
 using InvoiceWithDE.MasterData.Articles;
 using InvoiceWithDE.MasterData.Customers;
 using InvoiceWithDE.TaxAdministration;
+using InvoiceWithDE.TaxAdministration.EventHandlers;
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -64,6 +65,13 @@ namespace InvoiceWithDE
 
             await db.Init();
 
+            // DE
+
+            // Configure IEventHandlers for Domain Events.
+            ConfigureDomainEventSubsriptions(app.Services);
+
+            // END DE
+
             await app.RunAsync();
         }
 
@@ -106,6 +114,15 @@ namespace InvoiceWithDE
             app.ConfigureCancelInvoiceMinimalApi();
 
             app.ConfigureTaxMessageMinimalApi();
+        }
+
+        public static void ConfigureDomainEventSubsriptions(
+            IServiceProvider serviceProvider)
+        {
+            EventBus eventBus = serviceProvider.GetRequiredService<EventBus>();
+            TaxAdministrationEventSubscriptionManager.Subscribe(
+                eventBus,
+                serviceProvider);
         }
     }
 }

@@ -11,25 +11,32 @@ namespace InvoiceWithDE.Invoice.UseCases.Finalize
     {
         private readonly InvoiceRepository _invoiceRepo;
 
+        // DE
+        // We do not need to deal with inventory and tax message any more
+        /*
         private readonly InventoryItemRepository _inventoryItemRepo;
 
         private readonly TaxMessageRepository _taxMessageRepository;
 
         private readonly TaxMessageCommonLogic _taxMessageCommonLogic;
-
+        */
+        
+        // but we need EventBus
         private readonly EventBus _eventBus;
+
+        // END DE
 
         public MakeFinalCommandHandler(
             InvoiceRepository invoiceRepo,
-            InventoryItemRepository inventoryItemRepo,
-            TaxMessageRepository taxMessageRepository,
-            TaxMessageCommonLogic taxMessageCommonLogic,
+            //InventoryItemRepository inventoryItemRepo,
+            //TaxMessageRepository taxMessageRepository,
+            //TaxMessageCommonLogic taxMessageCommonLogic,
             EventBus eventBus)
         {
             _invoiceRepo = invoiceRepo;
-            _inventoryItemRepo = inventoryItemRepo;
-            _taxMessageRepository = taxMessageRepository;
-            _taxMessageCommonLogic = taxMessageCommonLogic;
+            //_inventoryItemRepo = inventoryItemRepo;
+            //_taxMessageRepository = taxMessageRepository;
+            //_taxMessageCommonLogic = taxMessageCommonLogic;
             _eventBus = eventBus;
         }
 

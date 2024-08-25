@@ -1,13 +1,21 @@
-﻿using InvoiceWithDE.Invoice.DTO;
+﻿using InvoiceWithDE.Common;
+using InvoiceWithDE.Invoice.DTO;
 
 namespace InvoiceWithDE.Invoice.DomainEvents
 {
-    public class InvoiceCanceledDomainEvent
+    public class InvoiceCanceledDomainEvent : BaseDomainEvent<InvoiceCanceledDomainEventPayload>
     {
-        public required InvoiceDTO Invoice { get; init; }
+        public InvoiceCanceledDomainEvent(
+            InvoiceCanceledDomainEventPayload payload) : base(payload)
+        {
+        }
 
-        public required IReadOnlyList<InvoiceItemDTO> InvoiceItems { get; init; }
-
-        public required DateTime DateOfCancelation { get; init; }
+        public override DomainEventTypes EventType
+        {
+            get
+            {
+                return DomainEventTypes.InvoiceCanceled;
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
-﻿using InvoiceWithDE.Inventory;
+﻿using InvoiceWithDE.EventIInfrastructure;
+using InvoiceWithDE.Inventory;
 using InvoiceWithDE.Invoice.BusinessModel;
+using InvoiceWithDE.Invoice.DomainEvents;
 using InvoiceWithDE.TaxAdministration;
 using System.Transactions;
 
@@ -15,16 +17,20 @@ namespace InvoiceWithDE.Invoice.UseCases.CancelInvoice
 
         private readonly TaxMessageRepository _taxMessageRepository;
 
+        private readonly EventBus _eventBus;
+
         public CancelInvoiceCommandHandler(
             InvoiceRepository invoiceRepo,
             InventoryItemRepository inventoryItemRepo,
             TaxMessageCommonLogic taxMessageCommonLogic,
-            TaxMessageRepository taxMessageRepository)
+            TaxMessageRepository taxMessageRepository,
+            EventBus eventBus)
         {
             _invoiceRepo = invoiceRepo;
             _inventoryItemRepo = inventoryItemRepo;
             _taxMessageCommonLogic = taxMessageCommonLogic;
             _taxMessageRepository = taxMessageRepository;
+            _eventBus = eventBus;
         }
 
         public InvoiceModel Cancel(CancelInvoiceCommand request)
@@ -63,6 +69,10 @@ namespace InvoiceWithDE.Invoice.UseCases.CancelInvoice
             _invoiceRepo.Save(
                 invoiceModel);
 
+            // do not process side effects here.
+            // raise InvoiceFinalizedDomainEvent event
+
+            /*
             // reduce inventory
             // oops
             // If I forget this, we will have ghost items in warehouse
@@ -92,6 +102,20 @@ namespace InvoiceWithDE.Invoice.UseCases.CancelInvoice
 
             _taxMessageRepository.EnqueueForSending(
                 taxMessageDTO);
+            */
+
+            InvoiceCanceledDomainEventPayload dePayload = new()
+            {
+                DateOfCancelation = DateTime.Now,
+                Invoice = InvoiceModel.ToDTO(invoiceModel),
+                InvoiceItems = InvoiceItemModel.ToDTO(invoiceModel.Items)
+            };
+
+            InvoiceCanceledDomainEvent de = new(dePayload);
+
+            _eventBus.Handle(de);
+
+            // END DE
 
             // complete tran
             ts.Complete();

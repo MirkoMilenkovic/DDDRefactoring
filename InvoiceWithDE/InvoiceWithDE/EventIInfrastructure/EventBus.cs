@@ -48,11 +48,11 @@ namespace InvoiceWithDE.EventIInfrastructure
 
             foreach (IDomainEventHandler handler in handlersForType)
             {
-                _logger.LogInformation($"Executing handler: {handler.GetType().Name} for {ev.EventType}");
+                _logger.LogInformation($"Executing event handler: {handler.GetType().Name} for {ev.EventType}");
 
                 handler.Handle(ev);
 
-                _logger.LogInformation($"Execututed handler: {handler.GetType().Name} for {ev.EventType}");
+                _logger.LogInformation($"Executed event handler: {handler.GetType().Name} for {ev.EventType}");
             }
         }
     }

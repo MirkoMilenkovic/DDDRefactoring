@@ -1,4 +1,6 @@
-﻿namespace InvoiceWithDE.TaxAdministration
+﻿using InvoiceWithDE.TaxAdministration.EventHandlers;
+
+namespace InvoiceWithDE.TaxAdministration
 {
     public class TaxAdministrationDIConfigurator
     {
@@ -7,6 +9,10 @@
             builder.Services.AddSingleton<TaxMessageRepository>();
 
             builder.Services.AddSingleton<TaxMessageCommonLogic>();
+
+            builder.Services.AddSingleton<InvoiceFinalizedDomainEventHandler>();
+
+            builder.Services.AddSingleton<InvoiceCanceledDomainEventHandler>();
         }
     }
 }
