@@ -69,29 +69,15 @@ namespace InvoiceWithTS
         {
             builder.Services.AddSingleton<InMemoryDB>();
 
-            builder.Services.AddSingleton<ArticleRepository>();
+            ArticlesDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<CustomerRepository>();
+            CustomersDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<InvoiceRepository>();
+            InvoiceDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<InventoryItemRepository>();
+            TaxAdministrationDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<InvoiceCommonLogic>();
-
-            builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
-
-            builder.Services.AddSingleton<AddItemCommandHandler>();
-
-            builder.Services.AddSingleton<UpdateItemCommandHandler>();
-
-            builder.Services.AddSingleton<MakeFinalCommandHandler>();
-
-            builder.Services.AddSingleton<CancelInvoiceCommandHandler>();
-
-            builder.Services.AddSingleton<TaxMessageRepository>();
-
-            builder.Services.AddSingleton<TaxMessageCommonLogic>();
+            InventoryDIConfigurator.Configure(builder);
         }
 
         private static void ConfigureMinimalApi(WebApplication app)
