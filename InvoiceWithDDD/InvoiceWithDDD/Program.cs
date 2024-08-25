@@ -72,33 +72,20 @@ namespace InvoiceWithDDD
         {
             builder.Services.AddSingleton<InMemoryDB>();
 
-            builder.Services.AddSingleton<ArticleRepository>();
+            builder.Services.AddSingleton<InMemoryDB>();
 
-            builder.Services.AddSingleton<CustomerRepository>();
+            ArticlesDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<InvoiceRepository>();
+            CustomersDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<InventoryItemRepository>();
+            InvoiceDIConfigurator.Configure(builder);
 
-            // DDD
-            // No InvoiceCommonLogic,
-            // because it is moved to InvoiceModel itself. 
-            // builder.Services.AddSingleton<InvoiceCommonLogic>();
-            // END DDD
+            TaxAdministrationDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
+            InventoryDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<AddItemCommandHandler>();
+           
 
-            builder.Services.AddSingleton<UpdateItemCommandHandler>();
-
-            builder.Services.AddSingleton<MakeFinalCommandHandler>();
-
-            builder.Services.AddSingleton<CancelInvoiceCommandHandler>();
-
-            builder.Services.AddSingleton<TaxMessageRepository>();
-
-            builder.Services.AddSingleton<TaxMessageCommonLogic>();
         }
 
         private static void ConfigureMinimalApi(WebApplication app)
