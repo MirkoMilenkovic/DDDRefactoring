@@ -1,5 +1,7 @@
-﻿using InvoiceWithDE.Inventory;
+﻿using InvoiceWithDE.EventIInfrastructure;
+using InvoiceWithDE.Inventory;
 using InvoiceWithDE.Invoice.BusinessModel;
+using InvoiceWithDE.Invoice.DomainEvents;
 using InvoiceWithDE.TaxAdministration;
 using System.Transactions;
 
@@ -15,16 +17,20 @@ namespace InvoiceWithDE.Invoice.UseCases.Finalize
 
         private readonly TaxMessageCommonLogic _taxMessageCommonLogic;
 
+        private readonly EventBus _eventBus;
+
         public MakeFinalCommandHandler(
             InvoiceRepository invoiceRepo,
             InventoryItemRepository inventoryItemRepo,
             TaxMessageRepository taxMessageRepository,
-            TaxMessageCommonLogic taxMessageCommonLogic)
+            TaxMessageCommonLogic taxMessageCommonLogic,
+            EventBus eventBus)
         {
             _invoiceRepo = invoiceRepo;
             _inventoryItemRepo = inventoryItemRepo;
             _taxMessageRepository = taxMessageRepository;
             _taxMessageCommonLogic = taxMessageCommonLogic;
+            _eventBus = eventBus;
         }
 
         public InvoiceModel MakeFinal(MakeFinalCommand request)
@@ -63,6 +69,23 @@ namespace InvoiceWithDE.Invoice.UseCases.Finalize
             // We will try to solve it for next release.    
 
             //reduce inventory
+
+            // DE
+            // do not process side effects here.
+            // raise InvoiceFinalizedDomainEvent event
+
+            InvoiceFinalizedDomainEventPayload dePayload = new ()
+            { 
+                DateOfFinalization = DateTime.Now ,
+                Invoice = InvoiceModel.ToDTO(invoiceModel),
+                InvoiceItems =  InvoiceItemModel.ToDTO(invoiceModel.Items),
+            };
+
+            InvoiceFinalizedDomainEvent de = new(dePayload);
+            
+            _eventBus.Handle(de);
+
+            /*
             foreach (InvoiceItemModel item in invoiceModel.Items)
             {
                 _inventoryItemRepo.ReduceQuantity(
@@ -89,6 +112,9 @@ namespace InvoiceWithDE.Invoice.UseCases.Finalize
 
             _taxMessageRepository.EnqueueForSending(
                 taxMessageDTO);
+            */
+
+            // END DE
 
             // complete tran
             ts.Complete();

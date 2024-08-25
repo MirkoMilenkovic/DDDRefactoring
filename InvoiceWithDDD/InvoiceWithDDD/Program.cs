@@ -72,8 +72,6 @@ namespace InvoiceWithDDD
         {
             builder.Services.AddSingleton<InMemoryDB>();
 
-            builder.Services.AddSingleton<InMemoryDB>();
-
             ArticlesDIConfigurator.Configure(builder);
 
             CustomersDIConfigurator.Configure(builder);
@@ -83,9 +81,6 @@ namespace InvoiceWithDDD
             TaxAdministrationDIConfigurator.Configure(builder);
 
             InventoryDIConfigurator.Configure(builder);
-
-           
-
         }
 
         private static void ConfigureMinimalApi(WebApplication app)

@@ -1,4 +1,5 @@
 ﻿using InvoiceWithDE.DB;
+using InvoiceWithDE.EventIInfrastructure;
 using InvoiceWithDE.Inventory;
 using InvoiceWithDE.Inventory.GetInventory;
 using InvoiceWithDE.Invoice;
@@ -31,8 +32,6 @@ namespace InvoiceWithDE
             
             builder.Logging.AddConsole();
             builder.Logging.AddDebug();
-
-            
 
             builder.Services.AddControllers();
             builder.Services.Configure<JsonOptions>(options =>
@@ -72,34 +71,19 @@ namespace InvoiceWithDE
         {
             builder.Services.AddSingleton<InMemoryDB>();
 
-            builder.Services.AddSingleton<ArticleRepository>();
+            builder.Services.AddSingleton<EventBus>();
 
-            builder.Services.AddSingleton<CustomerRepository>();
+            ArticlesDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<InvoiceRepository>();
+            CustomersDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<InventoryItemRepository>();
+            InvoiceDIConfigurator.Configure(builder);
 
-            // DDD
-            // No InvoiceCommonLogic,
-            // because it is moved to InvoiceModel itself. 
-            // builder.Services.AddSingleton<InvoiceCommonLogic>();
-            // END DDD
+            TaxAdministrationDIConfigurator.Configure(builder);
 
-            builder.Services.AddSingleton<CreateInvoiceCommandHandler>();
-
-            builder.Services.AddSingleton<AddItemCommandHandler>();
-
-            builder.Services.AddSingleton<UpdateItemCommandHandler>();
-
-            builder.Services.AddSingleton<MakeFinalCommandHandler>();
-
-            builder.Services.AddSingleton<CancelInvoiceCommandHandler>();
-
-            builder.Services.AddSingleton<TaxMessageRepository>();
-
-            builder.Services.AddSingleton<TaxMessageCommonLogic>();
+            InventoryDIConfigurator.Configure(builder);
         }
+
 
         private static void ConfigureMinimalApi(WebApplication app)
         {

@@ -203,6 +203,20 @@ namespace InvoiceWithDE.Invoice.BusinessModel
             return itemDto;
         }
 
+        public static IEnumerable<InvoiceItemDTO> ToDTO(
+           IEnumerable<InvoiceItemModel> itemModelList)
+        {
+            List<InvoiceItemDTO> list = new();
+            foreach(var itemModel in itemModelList)
+            {
+                var itemDTO = ToDTO(itemModel);
+
+                list.Add(itemDTO);
+            }
+
+            return list;
+        }
+
         /// <summary>
         /// Returns New Item, with no Id. 
         /// Only required properties are passed. 

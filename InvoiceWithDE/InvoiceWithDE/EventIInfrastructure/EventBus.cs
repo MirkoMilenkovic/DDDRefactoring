@@ -1,10 +1,18 @@
 ﻿using InvoiceWithDE.Common;
+using System.Collections.ObjectModel;
 
 namespace InvoiceWithDE.EventIInfrastructure
 {
     public class EventBus
     {
-        Dictionary<DomainEventTypes, List<IDomainEventHandler>> _handlers = new();
+        private readonly ILogger<EventBus> _logger;
+
+        private readonly Dictionary<DomainEventTypes, List<IDomainEventHandler>> _handlers = new();
+
+        public EventBus(ILogger<EventBus> logger)
+        {
+            _logger = logger;
+        }
 
 
         /// <summary>
@@ -14,7 +22,7 @@ namespace InvoiceWithDE.EventIInfrastructure
             IDomainEventHandler handler)
         {
             if (_handlers.TryGetValue(handler.EventType, out List<IDomainEventHandler>? handlersForType))
-            {
+            {                
                 handlersForType.Add(handler);
             }
             else
@@ -23,6 +31,8 @@ namespace InvoiceWithDE.EventIInfrastructure
                     handler.EventType,
                     new List<IDomainEventHandler>() { handler });
             }
+
+            _logger.LogInformation($"{handler.GetType().Name} added for {handler.EventType}");
         }
 
         public void Handle(BaseDomainEvent ev)
@@ -30,12 +40,19 @@ namespace InvoiceWithDE.EventIInfrastructure
             if (!_handlers.TryGetValue(ev.EventType, out List<IDomainEventHandler>? handlersForType))
             {
                 // no handler
+
+                _logger.LogInformation($"No handlers for {ev.EventType}");
+                
                 return;
             }
 
             foreach (IDomainEventHandler handler in handlersForType)
             {
+                _logger.LogInformation($"Executing handler: {handler.GetType().Name} for {ev.EventType}");
+
                 handler.Handle(ev);
+
+                _logger.LogInformation($"Execututed handler: {handler.GetType().Name} for {ev.EventType}");
             }
         }
     }
