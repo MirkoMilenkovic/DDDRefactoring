@@ -1,0 +1,106 @@
+---
+
+Domain Driven Refactoring
+
+as named by Jimmy Bogard, not me :)
+
+----------
+About me
+
+
+
+------------
+Poka-yoke
+
+https://en.wikipedia.org/wiki/Poka-yoke
+
+------
+Poka-yoke in press shop
+
+
+------
+Poka-yoke in home heating
+
+
+-------------
+Poka-yoke in C#
+
+Give me an example...
+
+--------------
+Object-oriented programming
+
+A programming paradigm based on the concept of objects,
+which can contain data and code
+
+------------
+Object-oriented programming
+
+LISP
+Sketchpad
+Simula 67
+
+------------
+Object-oriented programming
+
+Where do you use it?
+
+---------
+Object-oriented programming
+
+Where have I used it?
+
+-------------
+Domain Driven Design
+
+This is not about DDD!!!
+
+-------------
+Domain Driven Design
+
+Object model of business (Jimmy Bogard)
+
+Object-oriented design done righ (someone)
+
+-----------
+Domain Driven Design
+
+Bounded context
+
+-----
+Domain Driven Design
+
+Domain Entity
+
+-----
+Domain Driven Design
+
+Aggregate Root
+- transaction boundary
+
+---------
+Domain Driven Design
+
+Domain Service
+
+--------
+Domain Driven Design
+
+Domain Event
+
+--------
+Domain Driven Design
+
+https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215
+
+https://www.amazon.com/Domain-Driven-Design-Distilled-Vaughn-Vernon/dp/0134434420
+
+
+--------
+Poka-yoke in your application
+
+https://www.youtube.com/watch?v=f64tZ90Dntg
+
+---------
+
+

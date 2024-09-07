@@ -44,6 +44,8 @@ namespace InvoiceWithTS.Invoice.UseCases.CancelInvoice
 
             // apply change            
             invoiceModel.Status = DTO.InvoiceStatuses.Canceled;
+            // oops. I've really forgotten this!!!
+            invoiceModel.EntityState = Common.EntityStates.Updated;
 
             // start save
             using TransactionScope ts = new TransactionScope(TransactionScopeOption.Required);
@@ -63,7 +65,7 @@ namespace InvoiceWithTS.Invoice.UseCases.CancelInvoice
             }
 
             // send message to Taxman
-            // oops. I've really forgoten this!!!
+            // oops. I've really forgotten this!!!
 
             TaxMessageInvoiceStatuses taxMessageInvoiceStatus = _taxMessageCommonLogic.MapInvoiceStatus(
                invoiceStatus: invoiceModel.Status);
