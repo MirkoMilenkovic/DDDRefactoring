@@ -11,7 +11,7 @@ When I change eg. InvoiceItem.Quantity, I have to remember to:
 This is the only way to have valid Invoice.
 
 **InvoiceModel.Items** is public List, i.e. mutable.
-Anyone can add any Item, without valdiation and totals calculation.
+Anyone can add any Item, without validation and totals calculation.
 
 **MakeFinal** use case requires knowledge of:
 - effects of Invoice creation process

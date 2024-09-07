@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="InvoiceWithDDD.Invoice.BusinessModel.InvoiceModel">
+    <Position X="2" Y="1" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIQAQEQgAACABAAgAAQgEIgIAAABCAAAAAAABAAAA=</HashCode>
+      <FileName>Invoice\BusinessModel\InvoiceModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ItemsPrivate" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="InvoiceWithDDD.Invoice.BusinessModel.InvoiceItemModel">
+    <Position X="6.5" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAAAAgAADAAAAAQgEIAQAAAAAAgAAAgABAAQA=</HashCode>
+      <FileName>Invoice\BusinessModel\InvoiceItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
