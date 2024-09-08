@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="InvoiceWithDE.Invoice.DomainEvents.InvoiceCanceledDomainEvent">
+    <Position X="0.75" Y="3.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Invoice\DomainEvents\InvoiceCanceledDomainEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InvoiceWithDE.Common.BaseDomainEvent&lt;TPayload&gt;">
+    <Position X="5.25" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\BaseDomainEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InvoiceWithDE.Invoice.DomainEvents.InvoiceCanceledDomainEventPayload">
+    <Position X="0.75" Y="6" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAQA=</HashCode>
+      <FileName>Invoice\DomainEvents\InvoiceCanceledDomainEventPayload.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InvoiceWithDE.Invoice.DomainEvents.InvoiceFinalizedDomainEvent">
+    <Position X="8.75" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Invoice\DomainEvents\InvoiceFinalizedDomainEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InvoiceWithDE.Invoice.DomainEvents.InvoiceFinalizedDomainEventPayload">
+    <Position X="8.75" Y="5.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Invoice\DomainEvents\InvoiceFinalizedDomainEventPayload.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
